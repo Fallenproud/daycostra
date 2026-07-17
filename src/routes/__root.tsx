@@ -83,17 +83,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Daycostra is the canonical prompt composer for engineering, product, and operations teams — from idea to production, instantly.",
+          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
       },
       { name: "author", content: "Daycostra" },
       { property: "og:title", content: "Daycostra 2027 — From prompt to product" },
       {
         property: "og:description",
         content:
-          "The modern prompt-to-product surface. Cinematic, structured, production-ready.",
+          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Daycostra 2027 — From prompt to product" },
+      { name: "twitter:description", content: "Compose context, models, and constraints into production-ready software — instantly, end to end." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
