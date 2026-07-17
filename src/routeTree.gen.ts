@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as ComponentRegistryRouteImport } from './routes/component-registry'
 import { Route as IndexRouteImport } from './routes/index'
 
 const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentRegistryRoute = ComponentRegistryRouteImport.update({
+  id: '/component-registry',
+  path: '/component-registry',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/design-system'
+  fullPaths: '/' | '/component-registry' | '/design-system'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/design-system'
-  id: '__root__' | '/' | '/design-system'
+  to: '/' | '/component-registry' | '/design-system'
+  id: '__root__' | '/' | '/component-registry' | '/design-system'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ComponentRegistryRoute: typeof ComponentRegistryRoute
   DesignSystemRoute: typeof DesignSystemRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/design-system'
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/component-registry': {
+      id: '/component-registry'
+      path: '/component-registry'
+      fullPath: '/component-registry'
+      preLoaderRoute: typeof ComponentRegistryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ComponentRegistryRoute: ComponentRegistryRoute,
   DesignSystemRoute: DesignSystemRoute,
 }
 export const routeTree = rootRouteImport
