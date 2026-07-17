@@ -1,24 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { HeroSection } from "@/components/hero/HeroSection";
+import {
+  FeatureGrid,
+  ProcessTimeline,
+  CapabilityShowcase,
+  TrustSection,
+  FinalCTA,
+  SiteFooter,
+} from "@/components/sections";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: Home,
+  head: () => ({
+    meta: [
+      { title: "Daycostra 2027 — From prompt to product" },
+      {
+        name: "description",
+        content:
+          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
+      },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main>
+      <HeroSection />
+      <FeatureGrid />
+      <ProcessTimeline />
+      <CapabilityShowcase />
+      <TrustSection />
+      <FinalCTA />
+      <SiteFooter />
+    </main>
   );
 }
