@@ -3,6 +3,7 @@ import {
   Outlet,
   Link,
   createRootRouteWithContext,
+  useLocation,
   useRouter,
   HeadContent,
   Scripts,
@@ -56,7 +57,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="rounded-md px-4 py-2 text-sm font-semibold"
             style={{
               background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
@@ -95,9 +99,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Daycostra 2027 — From prompt to product" },
-      { name: "twitter:description", content: "Compose context, models, and constraints into production-ready software — instantly, end to end." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -136,13 +152,15 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const isIdeWorkspace = location.pathname.toLowerCase() === "/ide";
 
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <EnvironmentRenderer />
-        <TopNavigation />
-        <ThemeControlPanel />
+        {!isIdeWorkspace && <EnvironmentRenderer />}
+        {!isIdeWorkspace && <TopNavigation />}
+        {!isIdeWorkspace && <ThemeControlPanel />}
         <Outlet />
       </ThemeProvider>
     </QueryClientProvider>
