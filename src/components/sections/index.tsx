@@ -1,5 +1,13 @@
+import { Link } from "@tanstack/react-router";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-import { features, capabilities, process, testimonials, partners, footerColumns } from "@/config/page-content";
+import {
+  features,
+  capabilities,
+  process,
+  testimonials,
+  partners,
+  footerColumns,
+} from "@/config/page-content";
 import { Sparkles, Twitter, Github, Linkedin, ArrowRight } from "lucide-react";
 
 export function FeatureGrid() {
@@ -21,7 +29,8 @@ export function FeatureGrid() {
               style={{
                 background: "var(--surface-elevated)",
                 color: "var(--accent-primary)",
-                boxShadow: "inset 0 0 0 1px var(--border-soft), 0 0 20px var(--glow-primary)",
+                boxShadow:
+                  "inset 0 0 0 1px var(--border-soft), 0 0 20px var(--glow-primary)",
               }}
             >
               <f.icon className="h-5 w-5" />
@@ -43,7 +52,6 @@ export function ProcessTimeline() {
       title="From prompt to production in four steps."
     >
       <div className="relative">
-        {/* connector line */}
         <div
           className="hidden md:block absolute left-0 right-0 top-6 h-px"
           style={{
@@ -93,7 +101,8 @@ export function CapabilityShowcase() {
               <div
                 className="flex h-11 w-11 items-center justify-center rounded-xl"
                 style={{
-                  background: "linear-gradient(135deg, var(--accent-primary)33, var(--surface-elevated))",
+                  background:
+                    "linear-gradient(135deg, var(--accent-primary)33, var(--surface-elevated))",
                   color: "var(--accent-primary)",
                   boxShadow: "inset 0 0 0 1px var(--border-primary)",
                 }}
@@ -122,10 +131,7 @@ export function TrustSection() {
     <SectionContainer id="trust" eyebrow="Trusted by builders">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
         {testimonials.map((t) => (
-          <figure
-            key={t.name}
-            className="glass-card elev-2 rounded-2xl p-6"
-          >
+          <figure key={t.name} className="glass-card elev-2 rounded-2xl p-6">
             <blockquote className="text-[15px] leading-relaxed text-[var(--text-primary)]">
               "{t.quote}"
             </blockquote>
@@ -168,32 +174,34 @@ export function FinalCTA() {
             boxShadow: "var(--elev-5), 0 0 80px var(--glow-primary)",
           }}
         >
-          {/* decorative gradient orb */}
           <div
             aria-hidden
             className="absolute -top-1/2 left-1/2 -translate-x-1/2 h-[500px] w-[500px] rounded-full opacity-40 blur-3xl"
-            style={{ background: "radial-gradient(circle, var(--accent-primary), transparent 70%)" }}
+            style={{
+              background: "radial-gradient(circle, var(--accent-primary), transparent 70%)",
+            }}
           />
           <div className="relative">
             <h2 className="font-display font-semibold tracking-[-0.02em] text-[var(--text-primary)] text-[clamp(1.75rem,4vw,3rem)] leading-[1.05]">
               Ready to build the future?
             </h2>
             <p className="mt-4 text-[var(--text-secondary)] text-base sm:text-lg max-w-[520px] mx-auto">
-              Join thousands of builders shipping with Daycostra.
+              Enter the Daycostra environment and work against a live application preview.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a
-                href="#trial"
+              <Link
+                to="/ide"
                 className="inline-flex items-center gap-1.5 rounded-lg px-6 py-3 text-sm font-bold transition-all hover:scale-[1.02]"
                 style={{
-                  background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
+                  background:
+                    "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
                   color: "var(--accent-on)",
                   boxShadow: "0 8px 30px var(--glow-primary)",
                 }}
               >
                 <Sparkles className="h-4 w-4" />
-                Get started for free
-              </a>
+                Enter the environment
+              </Link>
               <a
                 href="#demo"
                 className="inline-flex items-center gap-1.5 rounded-lg px-6 py-3 text-sm font-semibold text-[var(--text-primary)] hairline hover:bg-[var(--surface-secondary)] transition-colors"
@@ -204,15 +212,15 @@ export function FinalCTA() {
             <div className="mt-6 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-[var(--text-secondary)]">
               <span className="inline-flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-primary)]" />
-                No credit card
+                Live homepage preview
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-primary)]" />
-                14-day full access
+                Responsive device modes
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-primary)]" />
-                Cancel anytime
+                Runtime-ready shell
               </span>
             </div>
           </div>
@@ -238,9 +246,7 @@ export function SiteFooter() {
               >
                 D
               </div>
-              <span className="text-[15px] font-semibold text-[var(--text-primary)]">
-                Daycostra
-              </span>
+              <span className="text-[15px] font-semibold text-[var(--text-primary)]">Daycostra</span>
             </div>
             <p className="text-sm text-[var(--text-secondary)] max-w-[300px]">
               The canonical prompt-to-product surface for modern teams.
