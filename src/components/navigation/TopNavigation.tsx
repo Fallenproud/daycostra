@@ -38,14 +38,14 @@ export function TopNavigation() {
     <header
       className={cn(
         "fixed top-0 inset-x-0 z-40 transition-all duration-500",
-        scrolled ? "py-2" : "py-4"
+        scrolled ? "py-2" : "py-4",
       )}
     >
       <div className="mx-auto max-w-[var(--shell-max-w)] px-5 sm:px-8 lg:px-12">
         <div
           className={cn(
             "flex items-center justify-between rounded-2xl px-4 sm:px-5 py-2.5 transition-all",
-            scrolled ? "glass-nav elev-2" : "bg-transparent"
+            scrolled ? "glass-nav elev-2" : "bg-transparent",
           )}
         >
           <Logo />
@@ -69,8 +69,8 @@ export function TopNavigation() {
             >
               Log in
             </a>
-            <a
-              href="#get-started"
+            <Link
+              to="/ide"
               className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-semibold transition-all hover:scale-[1.02] elev-2"
               style={{
                 background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
@@ -78,9 +78,9 @@ export function TopNavigation() {
                 boxShadow: "0 0 24px var(--glow-primary), var(--elev-2)",
               }}
             >
-              Get Started
+              Enter environment
               <Sparkles className="h-3.5 w-3.5" />
-            </a>
+            </Link>
             <button
               className="lg:hidden rounded-md p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -104,6 +104,13 @@ export function TopNavigation() {
                   {item.label}
                 </a>
               ))}
+              <Link
+                to="/ide"
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-2.5 text-sm font-medium text-[var(--accent-primary)] hover:bg-[var(--surface-secondary)]"
+              >
+                Studio playground
+              </Link>
               <a
                 href="#login"
                 onClick={() => setOpen(false)}
