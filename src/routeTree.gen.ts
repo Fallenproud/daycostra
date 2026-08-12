@@ -13,7 +13,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IdeRouteImport } from './routes/ide'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as ComponentRegistryRouteImport } from './routes/component-registry'
-import { Route as IDERouteImport } from './routes/IDE'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -36,11 +35,6 @@ const ComponentRegistryRoute = ComponentRegistryRouteImport.update({
   path: '/component-registry',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IDERoute = IDERouteImport.update({
-  id: '/IDE',
-  path: '/IDE',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,7 +43,6 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/IDE': typeof IDERoute
   '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
@@ -57,7 +50,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/IDE': typeof IDERoute
   '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
@@ -66,7 +58,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/IDE': typeof IDERoute
   '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
@@ -76,23 +67,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/IDE'
     | '/component-registry'
     | '/design-system'
     | '/ide'
     | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/IDE'
-    | '/component-registry'
-    | '/design-system'
-    | '/ide'
-    | '/sitemap.xml'
+  to: '/' | '/component-registry' | '/design-system' | '/ide' | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
-    | '/IDE'
     | '/component-registry'
     | '/design-system'
     | '/ide'
@@ -101,7 +84,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  IDERoute: typeof IDERoute
   ComponentRegistryRoute: typeof ComponentRegistryRoute
   DesignSystemRoute: typeof DesignSystemRoute
   IdeRoute: typeof IdeRoute
@@ -138,13 +120,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentRegistryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/IDE': {
-      id: '/IDE'
-      path: '/IDE'
-      fullPath: '/IDE'
-      preLoaderRoute: typeof IDERouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -157,7 +132,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  IDERoute: IDERoute,
   ComponentRegistryRoute: ComponentRegistryRoute,
   DesignSystemRoute: DesignSystemRoute,
   IdeRoute: IdeRoute,
