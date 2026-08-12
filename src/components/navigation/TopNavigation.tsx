@@ -71,7 +71,6 @@ export function TopNavigation() {
             </a>
             <Link
               to="/ide"
-              search={{}}
               className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-semibold transition-all hover:scale-[1.02] elev-2"
               style={{
                 background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
@@ -107,7 +106,6 @@ export function TopNavigation() {
               ))}
               <Link
                 to="/ide"
-                search={{}}
                 onClick={() => setOpen(false)}
                 className="rounded-md px-3 py-2.5 text-sm font-medium text-[var(--accent-primary)] hover:bg-[var(--surface-secondary)]"
               >

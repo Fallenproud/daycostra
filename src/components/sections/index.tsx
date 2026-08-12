@@ -191,7 +191,6 @@ export function FinalCTA() {
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 to="/ide"
-                search={{}}
                 className="inline-flex items-center gap-1.5 rounded-lg px-6 py-3 text-sm font-bold transition-all hover:scale-[1.02]"
                 style={{
                   background:

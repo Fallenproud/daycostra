@@ -5,5 +5,5 @@ export const Route = createFileRoute("/IDE")({
 });
 
 function LegacyIdeRedirect() {
-  return <Navigate to="/ide" search={{}} replace />;
+  return <Navigate to="/ide" replace />;
 }

@@ -2,10 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { IdeWorkspace } from "@/components/ide/IdeWorkspace";
 
 export const Route = createFileRoute("/ide")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    prompt: typeof search.prompt === "string" ? search.prompt.slice(0, 2000) : undefined,
-    model: typeof search.model === "string" ? search.model.slice(0, 64) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { prompt?: string; model?: string } => {
+    const parsed: { prompt?: string; model?: string } = {};
+    if (typeof search.prompt === "string" && search.prompt.trim()) {
+      parsed.prompt = search.prompt.slice(0, 2000);
+    }
+    if (typeof search.model === "string" && search.model.trim()) {
+      parsed.model = search.model.slice(0, 64);
+    }
+    return parsed;
+  },
   component: IdePage,
   head: () => ({
     meta: [
