@@ -22,6 +22,9 @@ export interface PromptComposerProps {
   isSubmitting?: boolean;
   placeholder?: string;
   quickChips?: ReactNode;
+  /** Controlled text value (optional). Pair with onTextChange. */
+  value?: string;
+  onTextChange?: (value: string) => void;
 }
 
 const DEFAULT_MODELS: ModelOption[] = [
@@ -47,8 +50,15 @@ export function PromptComposer({
   isSubmitting = false,
   placeholder = "Describe what you want to build…",
   quickChips,
+  value,
+  onTextChange,
 }: PromptComposerProps) {
-  const [text, setText] = useState("");
+  const [internalText, setInternalText] = useState("");
+  const text = value ?? internalText;
+  const setText = (next: string) => {
+    if (value === undefined) setInternalText(next);
+    onTextChange?.(next);
+  };
   const [modelId, setModelId] = useState(activeModelId ?? models[0].id);
   const [focused, setFocused] = useState(false);
   const [dragOver, setDragOver] = useState(false);
