@@ -16,12 +16,19 @@ export interface PromptComposerProps {
   models?: ModelOption[];
   activeModelId?: string;
   onModelChange?: (id: string) => void;
-  onSubmit?: (payload: { text: string; modelId: string; attachments: ComposerAttachment[] }) => void;
+  onSubmit?: (payload: {
+    text: string;
+    modelId: string;
+    attachments: ComposerAttachment[];
+  }) => void;
   onAttach?: () => void;
   onVoiceInput?: () => void;
   isSubmitting?: boolean;
   placeholder?: string;
   quickChips?: ReactNode;
+  /** Controlled text value (optional). Pair with onTextChange. */
+  value?: string;
+  onTextChange?: (value: string) => void;
 }
 
 const DEFAULT_MODELS: ModelOption[] = [
@@ -47,8 +54,15 @@ export function PromptComposer({
   isSubmitting = false,
   placeholder = "Describe what you want to build…",
   quickChips,
+  value,
+  onTextChange,
 }: PromptComposerProps) {
-  const [text, setText] = useState("");
+  const [internalText, setInternalText] = useState("");
+  const text = value ?? internalText;
+  const setText = (next: string) => {
+    if (value === undefined) setInternalText(next);
+    onTextChange?.(next);
+  };
   const [modelId, setModelId] = useState(activeModelId ?? models[0].id);
   const [focused, setFocused] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -65,14 +79,21 @@ export function PromptComposer({
   return (
     <div className="w-full max-w-[var(--composer-max-w)] mx-auto">
       <div
-        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
         onDragLeave={() => setDragOver(false)}
-        onDrop={(e) => { e.preventDefault(); setDragOver(false); onAttach?.(); }}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          onAttach?.();
+        }}
         className={cn(
           "relative rounded-2xl transition-all duration-300",
           "glass-composer elev-5",
           focused && "ring-1 ring-[var(--accent-primary)]",
-          dragOver && "ring-2 ring-[var(--accent-primary)] scale-[1.005]"
+          dragOver && "ring-2 ring-[var(--accent-primary)] scale-[1.005]",
         )}
         style={{
           background: "var(--glass-composer)",
@@ -170,7 +191,7 @@ export function PromptComposer({
                         "w-full text-left rounded-md px-2.5 py-1.5 text-xs",
                         m.id === modelId
                           ? "bg-[var(--surface-secondary)] text-[var(--text-primary)]"
-                          : "text-[var(--text-secondary)] hover:bg-[var(--surface-secondary)]"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--surface-secondary)]",
                       )}
                     >
                       {m.label}
@@ -186,7 +207,8 @@ export function PromptComposer({
               disabled={!text.trim() || isSubmitting}
               className="inline-flex items-center gap-1.5 rounded-md px-3.5 py-2 text-xs font-bold uppercase tracking-wide transition-all hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
               style={{
-                background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
+                background:
+                  "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
                 color: "var(--accent-on)",
                 boxShadow: "0 4px 14px var(--glow-primary)",
               }}

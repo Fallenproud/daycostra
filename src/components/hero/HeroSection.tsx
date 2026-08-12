@@ -1,7 +1,30 @@
+import { useRef, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { PromptComposer } from "@/components/composer/PromptComposer";
 import { heroCopy, quickSuggestions, builderValues, partners } from "@/config/page-content";
 
+const CHIP_PROMPTS: Record<string, string> = {
+  "CRM Dashboard":
+    "Build a CRM dashboard with pipeline stages, contact records, and revenue analytics.",
+  "SaaS Starter Kit":
+    "Build a SaaS starter kit with authentication, billing, and a team workspace.",
+  "E-commerce Store": "Build an e-commerce store with product catalog, cart, and checkout.",
+  "Landing Page": "Build a high-conversion landing page with hero, social proof, and pricing.",
+  "API Service": "Build an API service with typed endpoints, validation, and rate limiting.",
+};
+
 export function HeroSection() {
+  const navigate = useNavigate();
+  const [prompt, setPrompt] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const launch = (text: string, modelId: string) => {
+    if (!text.trim() || submitting) return;
+    setSubmitting(true);
+    void navigate({ to: "/ide", search: { prompt: text.trim(), model: modelId } });
+  };
+
   return (
     <section
       id="hero"
@@ -44,11 +67,18 @@ export function HeroSection() {
         {/* Composer */}
         <div className="fade-up w-full mt-10" style={{ animationDelay: "0.2s" }}>
           <PromptComposer
+            value={prompt}
+            onTextChange={setPrompt}
+            isSubmitting={submitting}
+            onSubmit={({ text, modelId }) => launch(text, modelId)}
+            onAttach={() => fileInputRef.current?.click()}
             quickChips={
               <div className="flex flex-wrap justify-center gap-2">
                 {quickSuggestions.map((s) => (
                   <button
                     key={s.label}
+                    type="button"
+                    onClick={() => setPrompt(CHIP_PROMPTS[s.label] ?? s.label)}
                     className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium hairline text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent-primary)] transition-colors"
                     style={{ background: "var(--surface-secondary)" }}
                   >
@@ -58,6 +88,24 @@ export function HeroSection() {
                 ))}
               </div>
             }
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            className="hidden"
+            aria-hidden
+            tabIndex={-1}
+            onChange={(event) => {
+              const names = Array.from(event.target.files ?? []).map((file) => file.name);
+              if (names.length) {
+                setPrompt(
+                  (current) =>
+                    `${current}${current ? "\n\n" : ""}Attached context: ${names.join(", ")}`,
+                );
+              }
+              event.target.value = "";
+            }}
           />
         </div>
 
@@ -94,10 +142,7 @@ export function HeroSection() {
         </div>
 
         {/* Partners */}
-        <div
-          className="fade-up mt-12 w-full max-w-[860px]"
-          style={{ animationDelay: "0.4s" }}
-        >
+        <div className="fade-up mt-12 w-full max-w-[860px]" style={{ animationDelay: "0.4s" }}>
           <p className="text-[10.5px] uppercase tracking-[0.2em] text-[var(--text-muted)] mb-4">
             Trusted by builders and teams worldwide
           </p>

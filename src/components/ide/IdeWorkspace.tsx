@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AppWindow,
   Bell,
@@ -66,13 +66,43 @@ const DEVICE_WIDTH: Record<DeviceMode, number | string> = {
 };
 
 const RAIL_ITEMS = [
-  { label: "Overview", icon: Grid2X2 },
-  { label: "Assistant", icon: MessageSquare, active: true },
-  { label: "Projects", icon: Boxes },
-  { label: "Workflows", icon: GitBranch },
-  { label: "Data", icon: Database },
-  { label: "Terminal", icon: SquareTerminal },
-];
+  { id: "overview", label: "Overview", icon: Grid2X2 },
+  { id: "assistant", label: "Assistant", icon: MessageSquare },
+  { id: "projects", label: "Projects", icon: Boxes },
+  { id: "workflows", label: "Workflows", icon: GitBranch },
+  { id: "data", label: "Data", icon: Database },
+  { id: "terminal", label: "Terminal", icon: SquareTerminal },
+] as const;
+
+type RailId = (typeof RAIL_ITEMS)[number]["id"];
+
+const RAIL_DETAIL: Record<Exclude<RailId, "assistant">, { title: string; body: string; rows: string[] }> = {
+  overview: {
+    title: "Overview",
+    body: "Local snapshot of this workspace session.",
+    rows: ["Environment · live theme tokens", "Preview target · Daycostra homepage", "Runtime · local shell executor"],
+  },
+  projects: {
+    title: "Projects",
+    body: "Project registry is provided by the Daycostra runtime.",
+    rows: ["Project Aurora · current", "Volcanic launch site · archived", "Cryogenic docs · archived"],
+  },
+  workflows: {
+    title: "Workflows",
+    body: "Chain agents, data, and models into repeatable pipelines.",
+    rows: ["Compose → Generate → Review", "Design token sync", "Preview smoke check"],
+  },
+  data: {
+    title: "Data",
+    body: "No datasource is connected to this local shell.",
+    rows: ["Structured context · in-memory", "Attachments · session only", "Vector memory · not connected"],
+  },
+  terminal: {
+    title: "Terminal",
+    body: "Local command surface mirrored from the assistant.",
+    rows: ["volcanic · cryogenic · aurora", "refresh preview", "open preview"],
+  },
+};
 
 const BASE_STAGES = ["Interpreting intent", "Designing action", "Updating preview"];
 
@@ -240,10 +270,16 @@ function MessageCard({ message, run }: { message: ChatMessage; run?: LocalRun })
   );
 }
 
-export function IdeWorkspace() {
+interface IdeWorkspaceProps {
+  initialPrompt?: string;
+  initialModel?: string;
+}
+
+export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps = {}) {
   const { theme, setTheme } = useTheme();
   const [device, setDevice] = useState<DeviceMode>("desktop");
   const [railCollapsed, setRailCollapsed] = useState(false);
+  const [railView, setRailView] = useState<RailId>("assistant");
   const [mobilePanel, setMobilePanel] = useState<"assistant" | "preview">("preview");
   const [composer, setComposer] = useState("");
   const [previewKey, setPreviewKey] = useState(0);
@@ -266,12 +302,35 @@ export function IdeWorkspace() {
   ]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const handoffRef = useRef(false);
+
+  useEffect(() => {
+    if (handoffRef.current) return;
+    const seed = initialPrompt?.trim();
+    if (!seed) return;
+    handoffRef.current = true;
+    setMessages((items) => [
+      ...items,
+      {
+        id: Date.now() - 1,
+        role: "assistant",
+        body: `Handoff received from the landing composer${initialModel ? ` on ${initialModel}` : ""}. Queuing it in this workspace now.`,
+        meta: "Composer handoff",
+      },
+    ]);
+    void submitInstruction(seed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPrompt]);
+
   const previewWidth = DEVICE_WIDTH[device];
   const runId = String(activeRun?.id ?? runCounter).padStart(3, "0");
 
   const helperText = useMemo(
-    () => "Local commands: volcanic · cryogenic · aurora · refresh preview · open preview",
-    [],
+    () =>
+      `Local commands: volcanic · cryogenic · aurora · refresh preview · open preview${
+        initialModel ? ` · model ${initialModel}` : ""
+      }`,
+    [initialModel],
   );
 
   const refreshPreview = () => {
@@ -308,8 +367,8 @@ export function IdeWorkspace() {
     });
   };
 
-  const submitInstruction = async () => {
-    const value = composer.trim();
+  const submitInstruction = async (override?: string) => {
+    const value = (override ?? composer).trim();
     if (!value || activeRun?.status === "working") return;
 
     const nextRunId = runCounter + 1;
@@ -385,7 +444,16 @@ export function IdeWorkspace() {
           </Link>
           <nav className="flex flex-1 flex-col items-center gap-1.5">
             {RAIL_ITEMS.map((item) => (
-              <RailButton key={item.label} label={item.label} active={item.active}>
+              <RailButton
+                key={item.id}
+                label={item.label}
+                active={railView === item.id}
+                onClick={() => {
+                  setRailView(item.id);
+                  setRailCollapsed(false);
+                  setMobilePanel("assistant");
+                }}
+              >
                 <item.icon className="h-[19px] w-[19px]" />
               </RailButton>
             ))}
@@ -450,14 +518,45 @@ export function IdeWorkspace() {
                 <section className={cn("ide-panel min-h-0 overflow-hidden rounded-xl border border-white/[0.08]", mobilePanel !== "assistant" && "max-lg:hidden")} aria-label="AI assistant">
                   <div className="flex h-full min-h-0 flex-col">
                     <header className="flex h-[74px] shrink-0 items-center justify-between border-b border-white/[0.07] px-5">
-                      <h1 className="text-[12px] font-semibold uppercase tracking-[0.08em] text-zinc-200">AI Assistant</h1>
+                      <h1 className="text-[12px] font-semibold uppercase tracking-[0.08em] text-zinc-200">
+                        {railView === "assistant" ? "AI Assistant" : RAIL_DETAIL[railView].title}
+                      </h1>
                       <div className="flex items-center gap-1">
                         <RailButton label="Pin assistant"><Pin className="h-4 w-4" /></RailButton>
                         <RailButton label="Assistant options"><MoreHorizontal className="h-4 w-4" /></RailButton>
                       </div>
                     </header>
 
-                    <div ref={scrollRef} className="ide-scrollbar min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-5">
+                    {railView !== "assistant" && (
+                      <div className="ide-scrollbar min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-5">
+                        <p className="text-[12px] leading-6 text-zinc-400">{RAIL_DETAIL[railView].body}</p>
+                        <ul className="space-y-2">
+                          {RAIL_DETAIL[railView].rows.map((row) => (
+                            <li
+                              key={row}
+                              className="rounded-lg border border-white/[0.07] bg-white/[0.018] px-3.5 py-3 text-[12px] text-zinc-300"
+                            >
+                              {row}
+                            </li>
+                          ))}
+                        </ul>
+                        <button
+                          type="button"
+                          onClick={() => setRailView("assistant")}
+                          className="mt-2 inline-flex items-center gap-2 rounded-lg border border-white/[0.08] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-300 hover:bg-white/[0.04]"
+                        >
+                          <ChevronLeft className="h-3.5 w-3.5" /> Back to assistant
+                        </button>
+                      </div>
+                    )}
+
+                    <div
+                      ref={scrollRef}
+                      className={cn(
+                        "ide-scrollbar min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-5",
+                        railView !== "assistant" && "hidden",
+                      )}
+                    >
                       {messages.map((message, index) => {
                         const showRun = index === messages.length - 1 && message.role === "assistant" && activeRun;
                         return <MessageCard key={message.id} message={message} run={showRun ? activeRun : undefined} />;
