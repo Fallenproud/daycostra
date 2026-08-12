@@ -309,6 +309,15 @@ export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps 
     const seed = initialPrompt?.trim();
     if (!seed) return;
     handoffRef.current = true;
+    setMessages((items) => [
+      ...items,
+      {
+        id: Date.now() - 1,
+        role: "assistant",
+        body: `Handoff received from the landing composer${initialModel ? ` on ${initialModel}` : ""}. Queuing it in this workspace now.`,
+        meta: "Composer handoff",
+      },
+    ]);
     void submitInstruction(seed);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPrompt]);
@@ -317,8 +326,11 @@ export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps 
   const runId = String(activeRun?.id ?? runCounter).padStart(3, "0");
 
   const helperText = useMemo(
-    () => "Local commands: volcanic · cryogenic · aurora · refresh preview · open preview",
-    [],
+    () =>
+      `Local commands: volcanic · cryogenic · aurora · refresh preview · open preview${
+        initialModel ? ` · model ${initialModel}` : ""
+      }`,
+    [initialModel],
   );
 
   const refreshPreview = () => {

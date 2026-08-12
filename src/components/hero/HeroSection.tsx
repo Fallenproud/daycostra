@@ -4,8 +4,10 @@ import { PromptComposer } from "@/components/composer/PromptComposer";
 import { heroCopy, quickSuggestions, builderValues, partners } from "@/config/page-content";
 
 const CHIP_PROMPTS: Record<string, string> = {
-  "CRM Dashboard": "Build a CRM dashboard with pipeline stages, contact records, and revenue analytics.",
-  "SaaS Starter Kit": "Build a SaaS starter kit with authentication, billing, and a team workspace.",
+  "CRM Dashboard":
+    "Build a CRM dashboard with pipeline stages, contact records, and revenue analytics.",
+  "SaaS Starter Kit":
+    "Build a SaaS starter kit with authentication, billing, and a team workspace.",
   "E-commerce Store": "Build an e-commerce store with product catalog, cart, and checkout.",
   "Landing Page": "Build a high-conversion landing page with hero, social proof, and pricing.",
   "API Service": "Build an API service with typed endpoints, validation, and rate limiting.",
@@ -97,8 +99,9 @@ export function HeroSection() {
             onChange={(event) => {
               const names = Array.from(event.target.files ?? []).map((file) => file.name);
               if (names.length) {
-                setPrompt((current) =>
-                  `${current}${current ? "\n\n" : ""}Attached context: ${names.join(", ")}`,
+                setPrompt(
+                  (current) =>
+                    `${current}${current ? "\n\n" : ""}Attached context: ${names.join(", ")}`,
                 );
               }
               event.target.value = "";
@@ -139,10 +142,7 @@ export function HeroSection() {
         </div>
 
         {/* Partners */}
-        <div
-          className="fade-up mt-12 w-full max-w-[860px]"
-          style={{ animationDelay: "0.4s" }}
-        >
+        <div className="fade-up mt-12 w-full max-w-[860px]" style={{ animationDelay: "0.4s" }}>
           <p className="text-[10.5px] uppercase tracking-[0.2em] text-[var(--text-muted)] mb-4">
             Trusted by builders and teams worldwide
           </p>
