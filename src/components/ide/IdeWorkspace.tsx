@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AppWindow,
   Bell,
@@ -240,7 +240,12 @@ function MessageCard({ message, run }: { message: ChatMessage; run?: LocalRun })
   );
 }
 
-export function IdeWorkspace() {
+interface IdeWorkspaceProps {
+  initialPrompt?: string;
+  initialModel?: string;
+}
+
+export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps = {}) {
   const { theme, setTheme } = useTheme();
   const [device, setDevice] = useState<DeviceMode>("desktop");
   const [railCollapsed, setRailCollapsed] = useState(false);
