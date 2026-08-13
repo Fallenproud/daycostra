@@ -43,7 +43,8 @@ const registry: Entry[] = [
   },
   {
     name: "ThemeProvider",
-    purpose: "Runtime theme + environment state via context + localStorage + prefers-reduced-motion.",
+    purpose:
+      "Runtime theme + environment state via context + localStorage + prefers-reduced-motion.",
     props: "children",
     states: ["hydrating", "hydrated", "reduced-motion"],
     backend: "user preferences persistence",

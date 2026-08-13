@@ -44,7 +44,7 @@ function Row<T extends string>({
               "flex-1 min-w-0 rounded-md px-2 py-1.5 text-xs font-medium capitalize transition-colors",
               value === o
                 ? "bg-[var(--accent-primary)] text-[var(--accent-on)] shadow-sm"
-                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
             )}
           >
             {o}
@@ -109,9 +109,7 @@ export function ThemeControlPanel() {
                     onClick={() => t.setTheme(th.id)}
                     className={cn(
                       "group relative overflow-hidden rounded-lg p-2 text-left transition-all hairline",
-                      active
-                        ? "ring-2 ring-[var(--accent-primary)] elev-2"
-                        : "hover:elev-1"
+                      active ? "ring-2 ring-[var(--accent-primary)] elev-2" : "hover:elev-1",
                     )}
                     style={{
                       background: `linear-gradient(135deg, ${th.swatches[0]}, ${th.swatches[1]}66)`,

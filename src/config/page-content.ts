@@ -77,18 +77,54 @@ export const process = [
 ];
 
 export const capabilities = [
-  { title: "Prompt Composer", body: "The signature entry surface — modular, keyboard-first, and context-aware.", icon: Sparkles },
-  { title: "Workflow Builder", body: "Visually chain agents, data, and models into repeatable pipelines.", icon: Workflow },
-  { title: "Agent Coordination", body: "Multiple agents collaborate through structured shared context.", icon: Bot },
-  { title: "Structured Context", body: "Goals, audience, constraints, and memory as first-class inputs.", icon: Boxes },
-  { title: "Production Export", body: "Deploy, download, or push directly to your existing repo.", icon: Database },
-  { title: "Secure Execution", body: "Isolated runtimes, private by default, enterprise-grade.", icon: Lock },
+  {
+    title: "Prompt Composer",
+    body: "The signature entry surface — modular, keyboard-first, and context-aware.",
+    icon: Sparkles,
+  },
+  {
+    title: "Workflow Builder",
+    body: "Visually chain agents, data, and models into repeatable pipelines.",
+    icon: Workflow,
+  },
+  {
+    title: "Agent Coordination",
+    body: "Multiple agents collaborate through structured shared context.",
+    icon: Bot,
+  },
+  {
+    title: "Structured Context",
+    body: "Goals, audience, constraints, and memory as first-class inputs.",
+    icon: Boxes,
+  },
+  {
+    title: "Production Export",
+    body: "Deploy, download, or push directly to your existing repo.",
+    icon: Database,
+  },
+  {
+    title: "Secure Execution",
+    body: "Isolated runtimes, private by default, enterprise-grade.",
+    icon: Lock,
+  },
 ];
 
 export const testimonials = [
-  { quote: "Daycostra cut our build cycle in half. Outputs are insanely good out of the gate.", name: "Sarah J.", role: "Head of Product" },
-  { quote: "Finally, a prompt tool that thinks in context. It just gets what we're building.", name: "Mike T.", role: "CTO" },
-  { quote: "From docs to dashboards, it handles everything. Our new secret weapon.", name: "Priya K.", role: "Director of Engineering" },
+  {
+    quote: "Daycostra cut our build cycle in half. Outputs are insanely good out of the gate.",
+    name: "Sarah J.",
+    role: "Head of Product",
+  },
+  {
+    quote: "Finally, a prompt tool that thinks in context. It just gets what we're building.",
+    name: "Mike T.",
+    role: "CTO",
+  },
+  {
+    quote: "From docs to dashboards, it handles everything. Our new secret weapon.",
+    name: "Priya K.",
+    role: "Director of Engineering",
+  },
 ];
 
 export const footerColumns = [

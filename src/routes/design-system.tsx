@@ -15,10 +15,20 @@ export const Route = createFileRoute("/design-system")({
 });
 
 const semanticTokens = [
-  "--background", "--background-deep", "--surface-primary", "--surface-secondary",
-  "--surface-elevated", "--accent-primary", "--accent-secondary", "--accent-soft",
-  "--text-primary", "--text-secondary", "--border-primary", "--border-soft",
-  "--glow-primary", "--fog-primary",
+  "--background",
+  "--background-deep",
+  "--surface-primary",
+  "--surface-secondary",
+  "--surface-elevated",
+  "--accent-primary",
+  "--accent-secondary",
+  "--accent-soft",
+  "--text-primary",
+  "--text-secondary",
+  "--border-primary",
+  "--border-soft",
+  "--glow-primary",
+  "--fog-primary",
 ];
 
 function TokenSwatch({ name }: { name: string }) {
@@ -63,16 +73,15 @@ function DesignSystem() {
 
         <h3 className="text-lg font-semibold mb-4">Semantic color tokens</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-14">
-          {semanticTokens.map((t) => <TokenSwatch key={t} name={t} />)}
+          {semanticTokens.map((t) => (
+            <TokenSwatch key={t} name={t} />
+          ))}
         </div>
 
         <h3 className="text-lg font-semibold mb-4">Elevation</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-14">
           {[1, 2, 3, 4, 5].map((n) => (
-            <div
-              key={n}
-              className={`glass-card rounded-xl p-6 text-center elev-${n}`}
-            >
+            <div key={n} className={`glass-card rounded-xl p-6 text-center elev-${n}`}>
               <div className="text-xs text-[var(--text-secondary)] mb-1">Elevation</div>
               <div className="text-2xl font-bold">{n}</div>
             </div>
@@ -81,7 +90,10 @@ function DesignSystem() {
 
         <h3 className="text-lg font-semibold mb-4">Typography</h3>
         <div className="glass-card rounded-2xl p-8 mb-14 space-y-4">
-          <div style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }} className="font-display font-semibold tracking-[-0.03em] leading-none">
+          <div
+            style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
+            className="font-display font-semibold tracking-[-0.03em] leading-none"
+          >
             Display / from prompt to product.
           </div>
           <div className="text-2xl font-semibold">Heading — the modern composer.</div>

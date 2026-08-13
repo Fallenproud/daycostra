@@ -17,10 +17,7 @@ export function SectionContainer({
   className?: string;
 }) {
   return (
-    <section
-      id={id}
-      className={cn("relative py-20 sm:py-28 px-5 sm:px-8 lg:px-12", className)}
-    >
+    <section id={id} className={cn("relative py-20 sm:py-28 px-5 sm:px-8 lg:px-12", className)}>
       <div className="mx-auto max-w-[var(--content-max-w)]">
         {(eyebrow || title || subtitle) && (
           <div className="text-center mb-14 sm:mb-16">

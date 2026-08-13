@@ -81,7 +81,12 @@
   --env-horizon: #ff5a0a;
   --env-fog: rgba(20, 8, 4, 0.55);
   --env-vignette: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.75) 100%);
-  --env-grade: linear-gradient(180deg, rgba(255, 90, 10, 0.06), transparent 40%, rgba(0, 0, 0, 0.4));
+  --env-grade: linear-gradient(
+    180deg,
+    rgba(255, 90, 10, 0.06),
+    transparent 40%,
+    rgba(0, 0, 0, 0.4)
+  );
 
   /* glass */
   --glass-nav: rgba(8, 12, 18, 0.55);
@@ -98,8 +103,9 @@
   --elev-2: 0 4px 12px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.4);
   --elev-3: 0 10px 28px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.45);
   --elev-4: 0 20px 48px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.5);
-  --elev-5: 0 30px 80px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.55),
-    0 0 0 1px var(--border-primary), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --elev-5:
+    0 30px 80px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-primary),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --elev-glow: 0 0 40px var(--glow-primary);
 
   /* motion */
@@ -149,7 +155,12 @@
   --env-horizon: #ff5a0a;
   --env-fog: rgba(30, 12, 6, 0.55);
   --env-vignette: radial-gradient(ellipse at 50% 40%, transparent 25%, rgba(0, 0, 0, 0.8) 100%);
-  --env-grade: linear-gradient(180deg, rgba(255, 90, 10, 0.08), transparent 45%, rgba(0, 0, 0, 0.5));
+  --env-grade: linear-gradient(
+    180deg,
+    rgba(255, 90, 10, 0.08),
+    transparent 45%,
+    rgba(0, 0, 0, 0.5)
+  );
   --glass-nav: rgba(8, 12, 18, 0.55);
   --glass-composer: rgba(10, 14, 22, 0.62);
   --glass-card: rgba(14, 20, 28, 0.55);
@@ -182,8 +193,17 @@
   --env-sky-2: #a8c8e8;
   --env-horizon: #ffffff;
   --env-fog: rgba(220, 236, 250, 0.6);
-  --env-vignette: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(120, 155, 190, 0.35) 100%);
-  --env-grade: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent 40%, rgba(80, 120, 160, 0.15));
+  --env-vignette: radial-gradient(
+    ellipse at 50% 45%,
+    transparent 35%,
+    rgba(120, 155, 190, 0.35) 100%
+  );
+  --env-grade: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    transparent 40%,
+    rgba(80, 120, 160, 0.15)
+  );
   --glass-nav: rgba(255, 255, 255, 0.55);
   --glass-composer: rgba(255, 255, 255, 0.62);
   --glass-card: rgba(255, 255, 255, 0.55);
@@ -192,7 +212,8 @@
   --elev-2: 0 4px 12px rgba(44, 78, 112, 0.1), 0 1px 2px rgba(44, 78, 112, 0.06);
   --elev-3: 0 10px 28px rgba(44, 78, 112, 0.14), 0 2px 6px rgba(44, 78, 112, 0.08);
   --elev-4: 0 20px 48px rgba(44, 78, 112, 0.18), 0 4px 12px rgba(44, 78, 112, 0.1);
-  --elev-5: 0 30px 80px rgba(44, 78, 112, 0.22), 0 8px 24px rgba(44, 78, 112, 0.14),
+  --elev-5:
+    0 30px 80px rgba(44, 78, 112, 0.22), 0 8px 24px rgba(44, 78, 112, 0.14),
     0 0 0 1px rgba(255, 255, 255, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   color-scheme: light;
 }
@@ -223,7 +244,12 @@
   --env-horizon: #7c5cff;
   --env-fog: rgba(18, 20, 55, 0.5);
   --env-vignette: radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(2, 4, 15, 0.8) 100%);
-  --env-grade: linear-gradient(180deg, rgba(124, 92, 255, 0.08), transparent 40%, rgba(0, 0, 15, 0.5));
+  --env-grade: linear-gradient(
+    180deg,
+    rgba(124, 92, 255, 0.08),
+    transparent 40%,
+    rgba(0, 0, 15, 0.5)
+  );
   --glass-nav: rgba(10, 12, 26, 0.55);
   --glass-composer: rgba(14, 16, 34, 0.62);
   --glass-card: rgba(16, 20, 40, 0.55);
@@ -252,11 +278,21 @@
   backdrop-filter: blur(var(--glass-panel-blur)) saturate(160%);
   border: 1px solid var(--border-soft);
 }
-@utility elev-1 { box-shadow: var(--elev-1); }
-@utility elev-2 { box-shadow: var(--elev-2); }
-@utility elev-3 { box-shadow: var(--elev-3); }
-@utility elev-4 { box-shadow: var(--elev-4); }
-@utility elev-5 { box-shadow: var(--elev-5); }
+@utility elev-1 {
+  box-shadow: var(--elev-1);
+}
+@utility elev-2 {
+  box-shadow: var(--elev-2);
+}
+@utility elev-3 {
+  box-shadow: var(--elev-3);
+}
+@utility elev-4 {
+  box-shadow: var(--elev-4);
+}
+@utility elev-5 {
+  box-shadow: var(--elev-5);
+}
 @utility text-gradient-accent {
   background: linear-gradient(180deg, var(--accent-secondary), var(--accent-primary));
   -webkit-background-clip: text;
@@ -274,17 +310,26 @@
 
 /* ---------- base ---------- */
 @layer base {
-  * { border-color: var(--color-border); }
-  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
   body {
     background-color: var(--background);
     color: var(--text-primary);
     font-family: var(--font-sans);
-    transition: background-color var(--dur-slow) var(--ease-standard),
+    transition:
+      background-color var(--dur-slow) var(--ease-standard),
       color var(--dur-slow) var(--ease-standard);
     min-height: 100dvh;
   }
-  ::selection { background: var(--accent-primary); color: var(--accent-on); }
+  ::selection {
+    background: var(--accent-primary);
+    color: var(--accent-on);
+  }
   :focus-visible {
     outline: 2px solid var(--accent-primary);
     outline-offset: 2px;
@@ -294,40 +339,83 @@
 
 /* motion reductions */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
 }
 [data-motion="static"] .env-anim,
-[data-motion="off"] .env-anim { animation: none !important; }
+[data-motion="off"] .env-anim {
+  animation: none !important;
+}
 
 /* keyframes for env */
 @keyframes envDriftX {
-  0% { transform: translate3d(0,0,0); }
-  50% { transform: translate3d(-2%,0,0); }
-  100% { transform: translate3d(0,0,0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-2%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 @keyframes envPulse {
-  0%,100% { opacity: 0.55; }
-  50% { opacity: 0.9; }
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 @keyframes auroraShift {
-  0% { transform: translate3d(-4%, 0, 0) scaleY(1); opacity: .5; }
-  50% { transform: translate3d(4%, -2%, 0) scaleY(1.05); opacity: .75; }
-  100% { transform: translate3d(-4%, 0, 0) scaleY(1); opacity: .5; }
+  0% {
+    transform: translate3d(-4%, 0, 0) scaleY(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(4%, -2%, 0) scaleY(1.05);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(-4%, 0, 0) scaleY(1);
+    opacity: 0.5;
+  }
 }
 @keyframes softFloat {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 @keyframes gradientPan {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.fade-up { animation: fadeUp var(--dur-cinematic) var(--ease-cinematic) both; }
+.fade-up {
+  animation: fadeUp var(--dur-cinematic) var(--ease-cinematic) both;
+}
