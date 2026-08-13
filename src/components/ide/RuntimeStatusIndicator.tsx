@@ -14,6 +14,14 @@ const FALLBACK_STATUS: RuntimeBridgeStatus = {
   reason: "Daycostra runtime readiness endpoint is unavailable.",
   checkedAt: "",
   checks: [],
+  authority: {
+    provider: "daycostra-s6",
+    configured: false,
+    connected: false,
+    executionReady: false,
+    release: "authority-s6-v0.5.0",
+    reason: "Daycostra authority readiness is unavailable.",
+  },
 };
 
 export function RuntimeStatusIndicator() {
@@ -49,11 +57,14 @@ export function RuntimeStatusIndicator() {
 
   const presentation = useMemo(() => {
     if (loadState === "loading") {
-      return { label: "Checking AgentOS", tone: "text-zinc-400", dot: "bg-zinc-500" };
+      return { label: "Checking runtime", tone: "text-zinc-400", dot: "bg-zinc-500" };
     }
     if (status.connected) {
+      if (!status.authority.configured) {
+        return { label: "AgentOS ready · S6 missing", tone: "text-amber-300", dot: "bg-amber-400" };
+      }
       return {
-        label: status.executionReady ? "AgentOS ready" : "AgentOS connected · authority locked",
+        label: status.executionReady ? "Governed runtime ready" : "Runtime connected · authority locked",
         tone: status.executionReady ? "text-emerald-300" : "text-violet-200",
         dot: status.executionReady ? "bg-emerald-400" : "bg-violet-300",
       };
@@ -62,7 +73,7 @@ export function RuntimeStatusIndicator() {
       return { label: "AgentOS unavailable", tone: "text-amber-300", dot: "bg-amber-400" };
     }
     return { label: "Runtime not configured", tone: "text-zinc-500", dot: "bg-zinc-600" };
-  }, [loadState, status.configured, status.connected, status.executionReady]);
+  }, [loadState, status.authority.configured, status.configured, status.connected, status.executionReady]);
 
   return (
     <div className="fixed right-[210px] top-[22px] z-[125] hidden lg:block">
@@ -78,12 +89,12 @@ export function RuntimeStatusIndicator() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-[calc(100%+8px)] w-[360px] rounded-2xl border border-white/[0.09] bg-[#111217]/98 p-4 shadow-2xl backdrop-blur-xl">
+        <div className="absolute right-0 top-[calc(100%+8px)] w-[380px] rounded-2xl border border-white/[0.09] bg-[#111217]/98 p-4 shadow-2xl backdrop-blur-xl">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 text-[11px] font-semibold text-zinc-100">
-                {status.connected ? <ShieldCheck className="h-4 w-4 text-emerald-300" /> : <ShieldAlert className="h-4 w-4 text-amber-300" />}
-                AgentOS runtime substrate
+                {status.executionReady ? <ShieldCheck className="h-4 w-4 text-emerald-300" /> : <ShieldAlert className="h-4 w-4 text-amber-300" />}
+                Governed Daycostra runtime
               </div>
               <p className="mt-2 text-[10px] leading-5 text-zinc-500">{status.reason}</p>
             </div>
@@ -93,10 +104,17 @@ export function RuntimeStatusIndicator() {
           </div>
 
           <div className="mt-4 grid grid-cols-2 gap-2">
-            <StatusCell label="Connection" value={status.connected ? "Connected" : status.configured ? "Unavailable" : "Not configured"} good={status.connected} />
+            <StatusCell label="AgentOS" value={status.connected ? "Connected" : status.configured ? "Unavailable" : "Not configured"} good={status.connected} />
+            <StatusCell label="Authority S6" value={status.authority.configured ? "Configured" : "Not configured"} good={status.authority.configured} />
             <StatusCell label="Execution" value={status.executionReady ? "Authorized" : "Locked"} good={status.executionReady} />
             <StatusCell label="Mode" value={status.executionMode} />
-            <StatusCell label="Readiness" value={totalChecks ? `${readyChecks}/${totalChecks} checks` : "No probe data"} good={Boolean(totalChecks && readyChecks === totalChecks)} />
+            <StatusCell label="Runtime checks" value={totalChecks ? `${readyChecks}/${totalChecks} checks` : "No probe data"} good={Boolean(totalChecks && readyChecks === totalChecks)} />
+            <StatusCell label="Authority proof" value={status.authority.connected ? "Proven" : "Pending mission"} good={status.authority.connected} />
+          </div>
+
+          <div className="mt-3 rounded-xl border border-white/[0.06] bg-black/25 px-3 py-2.5">
+            <div className="text-[8px] font-semibold uppercase tracking-[0.12em] text-zinc-700">Authority boundary</div>
+            <p className="mt-1.5 text-[9px] leading-4 text-zinc-500">{status.authority.reason}</p>
           </div>
 
           {status.checks.length > 0 && (
