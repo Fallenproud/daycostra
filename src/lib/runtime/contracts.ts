@@ -1,3 +1,5 @@
+import type { AuthorityBoundaryStatus } from "../authority/contracts";
+
 export type RuntimeExecutionMode = "disabled" | "development" | "authenticated";
 
 export interface RuntimeReadinessCheck {
@@ -16,6 +18,7 @@ export interface RuntimeBridgeStatus {
   checkedAt: string;
   upstreamTimestamp?: string;
   checks: RuntimeReadinessCheck[];
+  authority: AuthorityBoundaryStatus;
 }
 
 export type RuntimeRunStatus =
