@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IdeRouteImport } from './routes/ide'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as ComponentRegistryRouteImport } from './routes/component-registry'
+import { Route as ApiRuntimeHealthRouteImport } from './routes/api/runtime/health'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -35,6 +36,11 @@ const ComponentRegistryRoute = ComponentRegistryRouteImport.update({
   path: '/component-registry',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiRuntimeHealthRoute = ApiRuntimeHealthRouteImport.update({
+  id: '/api/runtime/health',
+  path: '/api/runtime/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/runtime/health': typeof ApiRuntimeHealthRoute
   '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/runtime/health': typeof ApiRuntimeHealthRoute
   '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/runtime/health': typeof ApiRuntimeHealthRoute
   '/component-registry': typeof ComponentRegistryRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
@@ -67,15 +76,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/runtime/health'
     | '/component-registry'
     | '/design-system'
     | '/ide'
     | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/component-registry' | '/design-system' | '/ide' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/api/runtime/health'
+    | '/component-registry'
+    | '/design-system'
+    | '/ide'
+    | '/sitemap.xml'
   id:
     | '__root__'
     | '/'
+    | '/api/runtime/health'
     | '/component-registry'
     | '/design-system'
     | '/ide'
@@ -84,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiRuntimeHealthRoute: typeof ApiRuntimeHealthRoute
   ComponentRegistryRoute: typeof ComponentRegistryRoute
   DesignSystemRoute: typeof DesignSystemRoute
   IdeRoute: typeof IdeRoute
@@ -120,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentRegistryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/runtime/health': {
+      id: '/api/runtime/health'
+      path: '/api/runtime/health'
+      fullPath: '/api/runtime/health'
+      preLoaderRoute: typeof ApiRuntimeHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -132,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiRuntimeHealthRoute: ApiRuntimeHealthRoute,
   ComponentRegistryRoute: ComponentRegistryRoute,
   DesignSystemRoute: DesignSystemRoute,
   IdeRoute: IdeRoute,
