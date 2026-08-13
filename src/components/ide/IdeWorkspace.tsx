@@ -506,7 +506,7 @@ export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps 
               command: value,
               output: response,
               at: timeLabel(),
-              phase: "awaiting-runtime",
+              phase: "awaiting-runtime" as RuntimePhase,
             },
             ...items,
           ].slice(0, 30),
