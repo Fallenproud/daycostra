@@ -14,6 +14,7 @@ import { Route as IdeRouteImport } from './routes/ide'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as ComponentRegistryRouteImport } from './routes/component-registry'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
 import { Route as ApiRuntimeHealthRouteImport } from './routes/api/runtime/health'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -41,6 +42,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignInSplatRoute = SignInSplatRouteImport.update({
+  id: '/sign-in/$',
+  path: '/sign-in/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiRuntimeHealthRoute = ApiRuntimeHealthRouteImport.update({
   id: '/api/runtime/health',
   path: '/api/runtime/health',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sign-in/$': typeof SignInSplatRoute
   '/api/runtime/health': typeof ApiRuntimeHealthRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sign-in/$': typeof SignInSplatRoute
   '/api/runtime/health': typeof ApiRuntimeHealthRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sign-in/$': typeof SignInSplatRoute
   '/api/runtime/health': typeof ApiRuntimeHealthRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/ide'
     | '/sitemap.xml'
+    | '/sign-in/$'
     | '/api/runtime/health'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/ide'
     | '/sitemap.xml'
+    | '/sign-in/$'
     | '/api/runtime/health'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/ide'
     | '/sitemap.xml'
+    | '/sign-in/$'
     | '/api/runtime/health'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   DesignSystemRoute: typeof DesignSystemRoute
   IdeRoute: typeof IdeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SignInSplatRoute: typeof SignInSplatRoute
   ApiRuntimeHealthRoute: typeof ApiRuntimeHealthRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-in/$': {
+      id: '/sign-in/$'
+      path: '/sign-in/$'
+      fullPath: '/sign-in/$'
+      preLoaderRoute: typeof SignInSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/runtime/health': {
       id: '/api/runtime/health'
       path: '/api/runtime/health'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   DesignSystemRoute: DesignSystemRoute,
   IdeRoute: IdeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SignInSplatRoute: SignInSplatRoute,
   ApiRuntimeHealthRoute: ApiRuntimeHealthRoute,
 }
 export const routeTree = rootRouteImport

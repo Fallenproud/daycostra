@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Lint, typecheck, build
+    name: Lint, build, typecheck
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -35,11 +35,11 @@ jobs:
       - name: Lint
         run: bun run lint
 
-      - name: Typecheck
-        run: bunx tsc --noEmit
-
-      - name: Production build
+      - name: Production build and route generation
         run: bun run build
+
+      - name: Typecheck generated route graph
+        run: bunx tsc --noEmit
 
       - name: Verify clean source tree
         run: git diff --exit-code

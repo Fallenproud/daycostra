@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -156,13 +157,15 @@ function RootComponent() {
   const isIdeWorkspace = location.pathname.toLowerCase() === "/ide";
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        {!isIdeWorkspace && <EnvironmentRenderer />}
-        {!isIdeWorkspace && <TopNavigation />}
-        {!isIdeWorkspace && <ThemeControlPanel />}
-        <Outlet />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ClerkProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          {!isIdeWorkspace && <EnvironmentRenderer />}
+          {!isIdeWorkspace && <TopNavigation />}
+          {!isIdeWorkspace && <ThemeControlPanel />}
+          <Outlet />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ClerkProvider>
   );
 }
