@@ -1,3 +1,4 @@
+import { getAuthorityBoundaryStatus } from "@/lib/authority/readiness.server";
 import type { RuntimeBridgeStatus, RuntimeExecutionMode, RuntimeReadinessCheck } from "./contracts";
 
 const TIMEOUT_MS = 8_000;
@@ -44,6 +45,7 @@ export async function getAgentOsReadiness(): Promise<RuntimeBridgeStatus> {
   const url = baseUrl();
   const apiKey = envValue("DAYCOSTRA_AGENTOS_API_KEY");
   const mode = executionMode();
+  const authority = getAuthorityBoundaryStatus();
 
   if (!url || !apiKey) {
     return {
@@ -55,6 +57,7 @@ export async function getAgentOsReadiness(): Promise<RuntimeBridgeStatus> {
       reason: "AgentOS endpoint and service credential are not configured on the Daycostra server.",
       checkedAt,
       checks: [],
+      authority,
     };
   }
 
@@ -82,6 +85,7 @@ export async function getAgentOsReadiness(): Promise<RuntimeBridgeStatus> {
         reason: `AgentOS readiness returned HTTP ${response.status}.`,
         checkedAt,
         checks: [],
+        authority,
       };
     }
 
@@ -100,12 +104,15 @@ export async function getAgentOsReadiness(): Promise<RuntimeBridgeStatus> {
       connected: true,
       executionReady: false,
       executionMode: mode,
-      reason: overall
-        ? "AgentOS is connected. Execution remains locked until Daycostra identity, mission scope and delegation authority are wired."
-        : "AgentOS is connected but its readiness gate is not green.",
+      reason: !overall
+        ? "AgentOS is connected but its readiness gate is not green."
+        : !authority.configured
+          ? "AgentOS is connected and ready. Authority S6 is not configured, so governed execution remains locked."
+          : "AgentOS is connected and ready and Authority S6 is configured. Governed execution remains locked until an authenticated mission proves workload identity and Delegation Lease authority.",
       checkedAt,
       upstreamTimestamp: safeString(body.timestamp, 80),
       checks,
+      authority,
     };
   } catch {
     return {
@@ -117,6 +124,7 @@ export async function getAgentOsReadiness(): Promise<RuntimeBridgeStatus> {
       reason: "AgentOS readiness could not be reached from the Daycostra server.",
       checkedAt,
       checks: [],
+      authority,
     };
   } finally {
     clearTimeout(timeout);
