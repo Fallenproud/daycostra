@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { IdeWorkspace } from "@/components/ide/IdeWorkspace";
+import { RuntimeStatusIndicator } from "@/components/ide/RuntimeStatusIndicator";
 
 export const Route = createFileRoute("/ide")({
   validateSearch: (search: Record<string, unknown>): { prompt?: string; model?: string } => {
@@ -19,13 +20,13 @@ export const Route = createFileRoute("/ide")({
       {
         name: "description",
         content:
-          "Daycostra OS Studio Playground with a local assistant shell and live application preview.",
+          "Daycostra OS Studio Playground with a live application preview and governed AgentOS runtime readiness boundary.",
       },
       { property: "og:title", content: "Daycostra OS — Studio Playground" },
       {
         property: "og:description",
         content:
-          "Run local instructions against a live application preview inside the Daycostra environment.",
+          "Work against a live Daycostra application preview with a governed AgentOS runtime boundary.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -34,5 +35,10 @@ export const Route = createFileRoute("/ide")({
 
 function IdePage() {
   const { prompt, model } = Route.useSearch();
-  return <IdeWorkspace initialPrompt={prompt} initialModel={model} />;
+  return (
+    <>
+      <IdeWorkspace initialPrompt={prompt} initialModel={model} />
+      <RuntimeStatusIndicator />
+    </>
+  );
 }
