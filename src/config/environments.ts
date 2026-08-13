@@ -8,7 +8,13 @@ export interface EnvironmentManifest {
   /** ground/water color */
   ground: string;
   /** particle appearance */
-  particle: { color: string; size: [number, number]; count: number; drift: [number, number]; opacity: [number, number] };
+  particle: {
+    color: string;
+    size: [number, number];
+    count: number;
+    drift: [number, number];
+    opacity: [number, number];
+  };
   /** optional aurora ribbons (aurora only) */
   aurora?: { colors: string[] };
   /** optional lava fissures (volcanic only) */
@@ -29,7 +35,13 @@ export const ENVIRONMENTS: Record<ThemeId, EnvironmentManifest> = {
     `,
     mountains: ["#02030a", "#0a0710", "#1a0f18"],
     ground: "linear-gradient(180deg, #1a0805 0%, #05020a 100%)",
-    particle: { color: "#ff8848", size: [1, 3], count: 90, drift: [-0.15, -0.6], opacity: [0.3, 0.9] },
+    particle: {
+      color: "#ff8848",
+      size: [1, 3],
+      count: 90,
+      drift: [-0.15, -0.6],
+      opacity: [0.3, 0.9],
+    },
     lava: { color: "#ff6b1a" },
     focalPoint: { desktop: { x: 50, y: 55 }, tablet: { x: 50, y: 60 }, mobile: { x: 50, y: 65 } },
   },
@@ -41,7 +53,13 @@ export const ENVIRONMENTS: Record<ThemeId, EnvironmentManifest> = {
     `,
     mountains: ["#e6f0fa", "#c9dcee", "#a8c1d8"],
     ground: "linear-gradient(180deg, #cfe1f2 0%, #a4c1db 100%)",
-    particle: { color: "#ffffff", size: [1, 4], count: 80, drift: [-0.2, 0.4], opacity: [0.4, 0.95] },
+    particle: {
+      color: "#ffffff",
+      size: [1, 4],
+      count: 80,
+      drift: [-0.2, 0.4],
+      opacity: [0.4, 0.95],
+    },
     focalPoint: { desktop: { x: 50, y: 50 }, tablet: { x: 50, y: 55 }, mobile: { x: 50, y: 60 } },
   },
   aurora: {
@@ -52,7 +70,13 @@ export const ENVIRONMENTS: Record<ThemeId, EnvironmentManifest> = {
     `,
     mountains: ["#020212", "#050518", "#0a0a20"],
     ground: "linear-gradient(180deg, #060620 0%, #030315 100%)",
-    particle: { color: "#a9d7ff", size: [1, 2], count: 140, drift: [-0.05, -0.15], opacity: [0.3, 1] },
+    particle: {
+      color: "#a9d7ff",
+      size: [1, 2],
+      count: 140,
+      drift: [-0.05, -0.15],
+      opacity: [0.3, 1],
+    },
     aurora: { colors: ["#7c5cff", "#38bdf8", "#b45cff"] },
     focalPoint: { desktop: { x: 50, y: 45 }, tablet: { x: 50, y: 50 }, mobile: { x: 50, y: 55 } },
   },

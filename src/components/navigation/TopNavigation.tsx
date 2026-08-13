@@ -73,7 +73,8 @@ export function TopNavigation() {
               to="/ide"
               className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-semibold transition-all hover:scale-[1.02] elev-2"
               style={{
-                background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
+                background:
+                  "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
                 color: "var(--accent-on)",
                 boxShadow: "0 0 24px var(--glow-primary), var(--elev-2)",
               }}

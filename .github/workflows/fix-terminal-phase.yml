@@ -1,0 +1,43 @@
+name: Repair Terminal Phase Type
+
+on:
+  push:
+    branches:
+      - gate-b-ui-reconcile
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: gate-b-ui-reconcile
+
+      - name: Apply narrow TypeScript repair
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('src/components/ide/IdeWorkspace.tsx')
+          text = path.read_text()
+          old = '              phase: "awaiting-runtime",\n            },\n            ...items,\n          ].slice(0, 30),'
+          new = '              phase: "awaiting-runtime" as RuntimePhase,\n            },\n            ...items,\n          ].slice(0, 30),'
+          if old not in text:
+              raise SystemExit('Expected terminal history pattern not found; refusing broad edit')
+          path.write_text(text.replace(old, new, 1))
+          PY
+
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/ide/IdeWorkspace.tsx
+          git commit -m "fix(ui): preserve runtime phase type in terminal history [skip ci]"
+          git push origin HEAD:gate-b-ui-reconcile

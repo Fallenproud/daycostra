@@ -56,12 +56,15 @@ export function EnvironmentRenderer() {
       return;
     }
 
-    let width = 0, height = 0;
+    let width = 0,
+      height = 0;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      width = rect.width; height = rect.height;
-      canvas.width = width * dpr; canvas.height = height * dpr;
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
       const ctx = canvas.getContext("2d");
       ctx?.scale(dpr, dpr);
     };
@@ -70,7 +73,14 @@ export function EnvironmentRenderer() {
 
     const ctx = canvas.getContext("2d")!;
     const count = Math.floor(cfg.count * mult);
-    interface P { x: number; y: number; r: number; vx: number; vy: number; a: number; }
+    interface P {
+      x: number;
+      y: number;
+      r: number;
+      vx: number;
+      vy: number;
+      a: number;
+    }
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     const particlesArr: P[] = Array.from({ length: count }, () => ({
       x: Math.random() * width,
@@ -85,9 +95,16 @@ export function EnvironmentRenderer() {
       ctx.clearRect(0, 0, width, height);
       for (const p of particlesArr) {
         if (animate) {
-          p.x += p.vx; p.y += p.vy;
-          if (p.y < -5) { p.y = height + 5; p.x = Math.random() * width; }
-          if (p.y > height + 5) { p.y = -5; p.x = Math.random() * width; }
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y < -5) {
+            p.y = height + 5;
+            p.x = Math.random() * width;
+          }
+          if (p.y > height + 5) {
+            p.y = -5;
+            p.x = Math.random() * width;
+          }
           if (p.x < -5) p.x = width + 5;
           if (p.x > width + 5) p.x = -5;
         }
@@ -218,7 +235,10 @@ export function EnvironmentRenderer() {
       {/* Color grade */}
       <div className="absolute inset-0" style={{ background: "var(--env-grade)" }} />
       {/* Vignette / readability */}
-      <div className="absolute inset-0" style={{ background: "var(--env-vignette)", opacity: 0.6 }} />
+      <div
+        className="absolute inset-0"
+        style={{ background: "var(--env-vignette)", opacity: 0.6 }}
+      />
     </div>
   );
 }

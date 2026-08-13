@@ -29,8 +29,7 @@ export function FeatureGrid() {
               style={{
                 background: "var(--surface-elevated)",
                 color: "var(--accent-primary)",
-                boxShadow:
-                  "inset 0 0 0 1px var(--border-soft), 0 0 20px var(--glow-primary)",
+                boxShadow: "inset 0 0 0 1px var(--border-soft), 0 0 20px var(--glow-primary)",
               }}
             >
               <f.icon className="h-5 w-5" />
@@ -139,7 +138,8 @@ export function TrustSection() {
               <div
                 className="h-9 w-9 rounded-full shrink-0"
                 style={{
-                  background: "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
+                  background:
+                    "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
                 }}
               />
               <div className="min-w-0">
@@ -168,8 +168,7 @@ export function FinalCTA() {
         <div
           className="relative overflow-hidden rounded-3xl p-10 sm:p-14 lg:p-16 text-center"
           style={{
-            background:
-              "linear-gradient(135deg, var(--surface-elevated), var(--surface-primary))",
+            background: "linear-gradient(135deg, var(--surface-elevated), var(--surface-primary))",
             border: "1px solid var(--border-primary)",
             boxShadow: "var(--elev-5), 0 0 80px var(--glow-primary)",
           }}
@@ -240,13 +239,16 @@ export function SiteFooter() {
               <div
                 className="flex h-8 w-8 items-center justify-center rounded-lg italic font-black text-lg"
                 style={{
-                  background: "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
+                  background:
+                    "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
                   color: "var(--accent-on)",
                 }}
               >
                 D
               </div>
-              <span className="text-[15px] font-semibold text-[var(--text-primary)]">Daycostra</span>
+              <span className="text-[15px] font-semibold text-[var(--text-primary)]">
+                Daycostra
+              </span>
             </div>
             <p className="text-sm text-[var(--text-secondary)] max-w-[300px]">
               The canonical prompt-to-product surface for modern teams.
