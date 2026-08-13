@@ -44,24 +44,54 @@ const STORAGE_KEY = "daycostra.theme.v1";
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+function sameThemeState(a: ThemeState, b: ThemeState) {
+  return (
+    a.theme === b.theme &&
+    a.preset === b.preset &&
+    a.motion === b.motion &&
+    a.particles === b.particles &&
+    a.performance === b.performance &&
+    a.glass === b.glass &&
+    a.shadow === b.shadow
+  );
+}
+
+function mergeStoredState(current: ThemeState, raw: string | null) {
+  if (!raw) return current;
+  try {
+    const parsed = JSON.parse(raw) as Partial<ThemeState>;
+    const next = { ...current, ...parsed };
+    return sameThemeState(current, next) ? current : next;
+  } catch {
+    return current;
+  }
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ThemeState>(DEFAULTS);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  // hydrate
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setState((s) => ({ ...s, ...JSON.parse(raw) }));
+      setState((current) => mergeStoredState(current, localStorage.getItem(STORAGE_KEY)));
     } catch {}
+
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    const onChange = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY) return;
+      setState((current) => mergeStoredState(current, event.newValue));
+    };
+
     mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      mq.removeEventListener("change", onChange);
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
 
-  // apply to <html>
   useEffect(() => {
     const el = document.documentElement;
     el.setAttribute("data-theme", state.theme);
@@ -88,7 +118,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setGlass: (glass) => setState((s) => ({ ...s, glass })),
       setShadow: (shadow) => setState((s) => ({ ...s, shadow })),
     }),
-    [state, reducedMotion]
+    [state, reducedMotion],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
