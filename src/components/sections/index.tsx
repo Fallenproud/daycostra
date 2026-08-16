@@ -1,295 +1,162 @@
-import { Link } from "@tanstack/react-router";
-import { SectionContainer } from "@/components/layout/SectionContainer";
 import {
-  features,
-  capabilities,
-  process,
-  testimonials,
-  partners,
-  footerColumns,
-} from "@/config/page-content";
-import { Sparkles, Twitter, Github, Linkedin, ArrowRight } from "lucide-react";
+  ArrowUpRight,
+  BrainCircuit,
+  Radar,
+  ShieldCheck,
+  Workflow,
+  GitBranch,
+  Fingerprint,
+  ScanSearch,
+} from "lucide-react";
+import { capabilities, fallbackArticles, pillars } from "@/config/site";
+import { OrchestrationGraph } from "@/components/product/OrchestrationGraph";
+import { RingMark } from "@/components/brand/RingMark";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 
-export function FeatureGrid() {
-  return (
-    <SectionContainer
-      id="product"
-      eyebrow="Built for builders"
-      title="Everything you need to ship."
-      subtitle="Modern components. Powerful patterns. Infinite possibilities."
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {features.map((f) => (
-          <div
-            key={f.title}
-            className="glass-card elev-2 rounded-2xl p-6 group hover:elev-3 transition-shadow"
-          >
-            <div
-              className="flex h-11 w-11 items-center justify-center rounded-xl mb-5"
-              style={{
-                background: "var(--surface-elevated)",
-                color: "var(--accent-primary)",
-                boxShadow:
-                  "inset 0 0 0 1px var(--border-soft), 0 0 20px var(--glow-primary)",
-              }}
-            >
-              <f.icon className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-semibold text-[var(--text-primary)] mb-1.5">{f.title}</h3>
-            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{f.body}</p>
-          </div>
-        ))}
-      </div>
-    </SectionContainer>
-  );
-}
+const capabilityIcons = [BrainCircuit, Workflow, ShieldCheck];
+const pillarIcons = [Radar, BrainCircuit, Workflow, Fingerprint];
 
-export function ProcessTimeline() {
+export function PillarGrid() {
   return (
-    <SectionContainer
-      id="how-it-works"
-      eyebrow="How it works"
-      title="From prompt to production in four steps."
-    >
-      <div className="relative">
-        <div
-          className="hidden md:block absolute left-0 right-0 top-6 h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, var(--border-primary), var(--accent-primary), var(--border-primary), transparent)",
-          }}
-        />
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {process.map((p, i) => (
-            <div key={p.n} className="relative text-center">
-              <div
-                className="relative z-10 mx-auto flex h-12 w-12 items-center justify-center rounded-full mb-4 font-mono text-sm font-semibold"
-                style={{
-                  background: "var(--surface-elevated)",
-                  color: "var(--accent-primary)",
-                  border: "1px solid var(--border-primary)",
-                  boxShadow: "0 0 24px var(--glow-primary)",
-                }}
-              >
-                {i + 1}
-              </div>
-              <h3 className="text-base font-semibold text-[var(--text-primary)] mb-2">{p.title}</h3>
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{p.body}</p>
-            </div>
-          ))}
+    <section className="dc-section" aria-labelledby="pillar-title">
+      <div className="dc-shell">
+        <div className="dc-section-heading">
+          <div className="dc-kicker">Four operating pillars</div>
+          <h2 id="pillar-title">A controlled path from signal to action.</h2>
+          <p>Each layer has one job. The interface keeps those boundaries legible instead of hiding them behind generic automation claims.</p>
         </div>
-      </div>
-    </SectionContainer>
-  );
-}
-
-export function CapabilityShowcase() {
-  return (
-    <SectionContainer
-      id="capabilities"
-      eyebrow="Capabilities"
-      title="A composer for every workflow."
-      subtitle="Modular surfaces that scale from an inline prompt to an enterprise operations plane."
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {capabilities.map((c, i) => (
-          <div
-            key={c.title}
-            className="glass-card elev-2 rounded-2xl p-6 hover:elev-4 transition-all hover:-translate-y-0.5"
-          >
-            <div className="flex items-start justify-between mb-5">
-              <div
-                className="flex h-11 w-11 items-center justify-center rounded-xl"
-                style={{
-                  background:
-                    "linear-gradient(135deg, var(--accent-primary)33, var(--surface-elevated))",
-                  color: "var(--accent-primary)",
-                  boxShadow: "inset 0 0 0 1px var(--border-primary)",
-                }}
-              >
-                <c.icon className="h-5 w-5" />
-              </div>
-              <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-            </div>
-            <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">{c.title}</h3>
-            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{c.body}</p>
-            <div className="mt-5 pt-5 border-t border-[var(--border-soft)] flex items-center gap-1.5 text-xs font-medium text-[var(--accent-primary)] hover:gap-2.5 transition-all cursor-pointer">
-              Explore
-              <ArrowRight className="h-3.5 w-3.5" />
-            </div>
-          </div>
-        ))}
-      </div>
-    </SectionContainer>
-  );
-}
-
-export function TrustSection() {
-  return (
-    <SectionContainer id="trust" eyebrow="Trusted by builders">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
-        {testimonials.map((t) => (
-          <figure key={t.name} className="glass-card elev-2 rounded-2xl p-6">
-            <blockquote className="text-[15px] leading-relaxed text-[var(--text-primary)]">
-              "{t.quote}"
-            </blockquote>
-            <figcaption className="mt-5 pt-5 border-t border-[var(--border-soft)] flex items-center gap-3">
-              <div
-                className="h-9 w-9 rounded-full shrink-0"
-                style={{
-                  background: "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
-                }}
-              />
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-[var(--text-primary)]">{t.name}</div>
-                <div className="text-xs text-[var(--text-secondary)]">{t.role}</div>
-              </div>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-      <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4 opacity-70">
-        {partners.map((p) => (
-          <span key={p} className="text-sm font-bold tracking-wide text-[var(--text-secondary)]">
-            {p}
-          </span>
-        ))}
-      </div>
-    </SectionContainer>
-  );
-}
-
-export function FinalCTA() {
-  return (
-    <section id="get-started" className="relative py-20 sm:py-28 px-5 sm:px-8 lg:px-12">
-      <div className="mx-auto max-w-[var(--content-max-w)]">
-        <div
-          className="relative overflow-hidden rounded-3xl p-10 sm:p-14 lg:p-16 text-center"
-          style={{
-            background:
-              "linear-gradient(135deg, var(--surface-elevated), var(--surface-primary))",
-            border: "1px solid var(--border-primary)",
-            boxShadow: "var(--elev-5), 0 0 80px var(--glow-primary)",
-          }}
-        >
-          <div
-            aria-hidden
-            className="absolute -top-1/2 left-1/2 -translate-x-1/2 h-[500px] w-[500px] rounded-full opacity-40 blur-3xl"
-            style={{
-              background: "radial-gradient(circle, var(--accent-primary), transparent 70%)",
-            }}
-          />
-          <div className="relative">
-            <h2 className="font-display font-semibold tracking-[-0.02em] text-[var(--text-primary)] text-[clamp(1.75rem,4vw,3rem)] leading-[1.05]">
-              Ready to build the future?
-            </h2>
-            <p className="mt-4 text-[var(--text-secondary)] text-base sm:text-lg max-w-[520px] mx-auto">
-              Enter the Daycostra environment and work against a live application preview.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link
-                to="/ide"
-                className="inline-flex items-center gap-1.5 rounded-lg px-6 py-3 text-sm font-bold transition-all hover:scale-[1.02]"
-                style={{
-                  background:
-                    "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
-                  color: "var(--accent-on)",
-                  boxShadow: "0 8px 30px var(--glow-primary)",
-                }}
-              >
-                <Sparkles className="h-4 w-4" />
-                Enter the environment
-              </Link>
-              <a
-                href="#demo"
-                className="inline-flex items-center gap-1.5 rounded-lg px-6 py-3 text-sm font-semibold text-[var(--text-primary)] hairline hover:bg-[var(--surface-secondary)] transition-colors"
-              >
-                Book a demo
-              </a>
-            </div>
-            <div className="mt-6 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-[var(--text-secondary)]">
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-primary)]" />
-                Live homepage preview
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-primary)]" />
-                Responsive device modes
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-primary)]" />
-                Runtime-ready shell
-              </span>
-            </div>
-          </div>
+        <div className="dc-pillar-grid">
+          {pillars.map((pillar, index) => {
+            const Icon = pillarIcons[index];
+            return (
+              <article key={pillar.id} className="dc-glass dc-elev-3 dc-pillar-card">
+                <div className="dc-pillar-card__top">
+                  <span>0{index + 1}</span>
+                  <Icon size={19} strokeWidth={1.5} />
+                </div>
+                <h3>{pillar.title}</h3>
+                <strong>{pillar.statement}</strong>
+                <p>{pillar.body}</p>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-export function SiteFooter() {
+export function CapabilityGrid() {
   return (
-    <footer className="relative border-t border-[var(--border-soft)] py-14 px-5 sm:px-8 lg:px-12">
-      <div className="mx-auto max-w-[var(--content-max-w)]">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-          <div className="col-span-2 md:col-span-2">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div
-                className="flex h-8 w-8 items-center justify-center rounded-lg italic font-black text-lg"
-                style={{
-                  background: "linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))",
-                  color: "var(--accent-on)",
-                }}
-              >
-                D
-              </div>
-              <span className="text-[15px] font-semibold text-[var(--text-primary)]">Daycostra</span>
-            </div>
-            <p className="text-sm text-[var(--text-secondary)] max-w-[300px]">
-              The canonical prompt-to-product surface for modern teams.
-            </p>
+    <section className="dc-section dc-section--tight" aria-labelledby="capabilities-title">
+      <div className="dc-shell">
+        <div className="dc-section-heading dc-section-heading--split">
+          <div>
+            <div className="dc-kicker">Operational surfaces</div>
+            <h2 id="capabilities-title">Intelligence. Orchestration. Resilience.</h2>
           </div>
-          {footerColumns.map((col) => (
-            <div key={col.title}>
-              <div className="text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] mb-3">
-                {col.title}
-              </div>
-              <ul className="space-y-2">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <a
-                      href="#"
-                      className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <p>Three product views, all grounded in the same governed state rather than three disconnected dashboards.</p>
         </div>
-        <div className="mt-12 pt-6 border-t border-[var(--border-soft)] flex flex-wrap justify-between items-center gap-4">
-          <p className="text-xs text-[var(--text-muted)]">
-            © {new Date().getFullYear()} Daycostra. All rights reserved.
-          </p>
-          <div className="flex items-center gap-2">
-            {[Twitter, Github, Linkedin].map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="rounded-md p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-secondary)]"
-                aria-label="Social link"
-              >
-                <Icon className="h-4 w-4" />
+        <div className="dc-capability-grid">
+          {capabilities.map((capability, index) => {
+            const Icon = capabilityIcons[index];
+            return (
+              <a href={capability.href} key={capability.title} className="dc-glass dc-elev-5 dc-capability-card">
+                <span className="dc-capability-card__icon">
+                  <Icon size={22} strokeWidth={1.4} />
+                </span>
+                <span className="dc-kicker">{capability.eyebrow}</span>
+                <h3>{capability.title}</h3>
+                <p>{capability.body}</p>
+                <span className="dc-card-link">Explore surface <ArrowUpRight size={15} /></span>
               </a>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
-    </footer>
+    </section>
   );
 }
+
+export function AdaptiveResponseStrip() {
+  return (
+    <section className="dc-section" aria-labelledby="response-title">
+      <div className="dc-shell dc-response-strip dc-glass dc-elev-7">
+        <div className="dc-response-strip__copy">
+          <div className="dc-kicker">Adaptive Response Orchestration</div>
+          <h2 id="response-title">Move quickly without making control invisible.</h2>
+          <p>
+            Route signals through context, policy, human approval and action while retaining the trace that explains how the response unfolded.
+          </p>
+          <div className="dc-response-strip__principles">
+            <span><GitBranch size={15} /> Explicit routing</span>
+            <span><ShieldCheck size={15} /> Human checkpoints</span>
+            <span><ScanSearch size={15} /> Observable trace</span>
+          </div>
+          <a href="/orchestration" className="dc-button dc-button--outline">Explore orchestration</a>
+        </div>
+        <OrchestrationGraph />
+      </div>
+    </section>
+  );
+}
+
+export function InsightTeaser() {
+  const article = fallbackArticles[0];
+  return (
+    <section className="dc-section dc-section--tight" aria-labelledby="insight-title">
+      <div className="dc-shell dc-insight-teaser">
+        <div className="dc-insight-teaser__visual dc-glass dc-elev-3" aria-hidden="true">
+          <div className="dc-insight-teaser__grid" />
+          <RingMark size={170} pulse />
+          <span className="dc-insight-signal dc-insight-signal--one">01 · detect</span>
+          <span className="dc-insight-signal dc-insight-signal--two">02 · correlate</span>
+          <span className="dc-insight-signal dc-insight-signal--three">03 · route</span>
+        </div>
+        <div className="dc-insight-teaser__copy">
+          <div className="dc-kicker">Latest insight</div>
+          <h2 id="insight-title">{article.title}</h2>
+          <p>{article.subtitle}</p>
+          <div className="dc-meta-row">
+            <span>{article.readTime} min read</span>
+            <span>{article.author.role}</span>
+          </div>
+          <a href={`/insights/${article.slug}`} className="dc-button dc-button--ghost">Read the analysis <ArrowUpRight size={15} /></a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function TrustSection() {
+  return (
+    <section className="dc-section dc-section--tight" aria-labelledby="trust-title">
+      <div className="dc-shell dc-trust-surface">
+        <div>
+          <div className="dc-kicker">Designed for controlled operations</div>
+          <h2 id="trust-title">No invented live state. No hidden authority.</h2>
+        </div>
+        <p>
+          Product surfaces distinguish authoritative data from demo state, preserve source context and keep automation boundaries visible to operators.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+export function FinalCTA() {
+  return (
+    <section className="dc-section dc-section--closing" aria-labelledby="closing-title">
+      <div className="dc-shell dc-closing-cta dc-glass dc-elev-7">
+        <RingMark size={86} />
+        <div>
+          <div className="dc-kicker">Daycostra Platform</div>
+          <h2 id="closing-title">Build an operational view you can still explain under pressure.</h2>
+        </div>
+        <a href="/contact?intent=request-access" className="dc-button dc-button--primary">Request Platform Access</a>
+      </div>
+    </section>
+  );
+}
+
+export { SiteFooter };
