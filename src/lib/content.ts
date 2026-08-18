@@ -1,26 +1,28 @@
 import { fallbackArticles, type InsightArticle } from "@/config/site";
 
-export type ContentSource = "local" | "sanity-ready";
+export type ContentSource = "local";
 
 export type InsightRepository = {
   source: ContentSource;
-  cmsConfigured: boolean;
+  cmsConnected: boolean;
+  sanityConfigPresent: boolean;
   list: () => Promise<InsightArticle[]>;
   getBySlug: (slug: string) => Promise<InsightArticle | null>;
 };
 
-const hasSanityConfig = Boolean(
+const sanityConfigPresent = Boolean(
   import.meta.env.VITE_SANITY_PROJECT_ID && import.meta.env.VITE_SANITY_DATASET,
 );
 
 /**
- * The public frontend is intentionally operational without CMS credentials.
- * Sanity is the selected CMS, but until an authenticated/read client is wired,
- * local typed content remains the truthful source rather than simulating a live CMS.
+ * Local typed content is the only active source in this branch.
+ * Sanity remains the selected CMS, but environment configuration alone does not
+ * imply that a client/query implementation exists or that CMS reads are live.
  */
 export const insightRepository: InsightRepository = {
-  source: hasSanityConfig ? "sanity-ready" : "local",
-  cmsConfigured: hasSanityConfig,
+  source: "local",
+  cmsConnected: false,
+  sanityConfigPresent,
   async list() {
     return fallbackArticles;
   },
