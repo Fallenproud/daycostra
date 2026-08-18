@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Clock3 } from "lucide-react";
 import { insightRepository } from "@/lib/content";
 import { pillarById } from "@/config/site";
@@ -6,28 +6,16 @@ import { RingMark } from "@/components/brand/RingMark";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/insights/$slug")({
-  loader: ({ params }) => insightRepository.getBySlug(params.slug),
+  loader: async ({ params }) => {
+    const article = await insightRepository.getBySlug(params.slug);
+    if (!article) throw notFound();
+    return article;
+  },
   component: InsightArticlePage,
 });
 
 function InsightArticlePage() {
   const article = Route.useLoaderData();
-
-  if (!article) {
-    return (
-      <main className="dc-page">
-        <section className="dc-route-hero">
-          <div className="dc-shell dc-route-hero__inner">
-            <div className="dc-kicker">Insight unavailable</div>
-            <h1>This article is not in the current content source.</h1>
-            <a href="/insights" className="dc-button dc-button--outline"><ArrowLeft size={15} /> Back to insights</a>
-          </div>
-        </section>
-        <SiteFooter />
-      </main>
-    );
-  }
-
   const pillar = pillarById(article.pillar);
 
   return (
@@ -36,7 +24,7 @@ function InsightArticlePage() {
         <header className="dc-article-hero">
           <div className="dc-shell dc-article-hero__grid">
             <div>
-              <a href="/insights" className="dc-back-link"><ArrowLeft size={14} /> Insights</a>
+              <Link to="/insights" className="dc-back-link"><ArrowLeft size={14} /> Insights</Link>
               <div className="dc-kicker">{pillar.shortTitle}</div>
               <h1>{article.title}</h1>
               <p>{article.subtitle}</p>
