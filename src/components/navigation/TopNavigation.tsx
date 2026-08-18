@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Lockup } from "@/components/brand/Lockup";
 import { mainNav } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,11 @@ function readThemeCookie(): SiteTheme | null {
   return value === "light" || value === "dark" ? value : null;
 }
 
+function readAppliedTheme(): SiteTheme {
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.getAttribute("data-site-theme") === "light" ? "light" : "dark";
+}
+
 function applyTheme(theme: SiteTheme) {
   document.documentElement.setAttribute("data-site-theme", theme);
 }
@@ -30,7 +35,7 @@ export function TopNavigation() {
 
   useEffect(() => {
     const explicit = readThemeCookie();
-    const initial = explicit ?? (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    const initial = explicit ?? readAppliedTheme();
     setTheme(initial);
     applyTheme(initial);
 
@@ -50,17 +55,17 @@ export function TopNavigation() {
   return (
     <header className={cn("dc-header", scrolled && "dc-header--scrolled")}>
       <div className="dc-shell dc-header__inner">
-        <a href="/" className="dc-header__brand" aria-label="Daycostra home">
+        <Link to="/" className="dc-header__brand" aria-label="Daycostra home">
           <Lockup markSize={36} />
-        </a>
+        </Link>
 
         <nav className="dc-header__nav" aria-label="Primary navigation">
           {mainNav.map((item) => {
             const active = location.pathname === item.href || location.pathname.startsWith(`${item.href}/`);
             return (
-              <a key={item.href} href={item.href} className={cn("dc-nav-link", active && "is-active")}>
+              <Link key={item.href} to={item.href} className={cn("dc-nav-link", active && "is-active")}>
                 {item.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
@@ -77,9 +82,9 @@ export function TopNavigation() {
               {theme === "dark" ? <Moon size={12} /> : <Sun size={12} />}
             </span>
           </button>
-          <a href="/contact?intent=request-access" className="dc-button dc-button--outline dc-request-access">
+          <Link to="/contact" className="dc-button dc-button--outline dc-request-access">
             Request Access
-          </a>
+          </Link>
           <button
             type="button"
             className="dc-mobile-toggle"
@@ -96,13 +101,13 @@ export function TopNavigation() {
         <div className="dc-shell dc-mobile-menu">
           <nav aria-label="Mobile navigation">
             {mainNav.map((item) => (
-              <a key={item.href} href={item.href} onClick={() => setOpen(false)}>
+              <Link key={item.href} to={item.href} onClick={() => setOpen(false)}>
                 {item.label}
-              </a>
+              </Link>
             ))}
-            <a href="/contact?intent=request-access" onClick={() => setOpen(false)}>
+            <Link to="/contact" onClick={() => setOpen(false)}>
               Request Platform Access
-            </a>
+            </Link>
           </nav>
         </div>
       )}
