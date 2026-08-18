@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
+  Link,
   createRootRouteWithContext,
   useLocation,
   useRouter,
@@ -16,6 +17,16 @@ import { EnvironmentRenderer } from "@/components/environment/EnvironmentRendere
 import { TopNavigation } from "@/components/navigation/TopNavigation";
 import { Lockup } from "@/components/brand/Lockup";
 
+const themeBootScript = `(() => {
+  try {
+    const match = document.cookie.match(/(?:^|; )daycostra-theme=(dark|light)/);
+    const theme = match?.[1] || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-site-theme', theme);
+  } catch {
+    document.documentElement.setAttribute('data-site-theme', 'dark');
+  }
+})();`;
+
 function NotFoundComponent() {
   return (
     <main className="dc-page dc-system-page">
@@ -24,7 +35,7 @@ function NotFoundComponent() {
         <div className="dc-kicker">404 · outside the mapped surface</div>
         <h1>Even here, control the unknown.</h1>
         <p>The requested route is not part of the current Daycostra frontend.</p>
-        <a href="/" className="dc-button dc-button--primary">Return home</a>
+        <Link to="/" className="dc-button dc-button--primary">Return home</Link>
       </div>
     </main>
   );
@@ -56,7 +67,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Try again
           </button>
-          <a href="/" className="dc-button dc-button--outline">Return home</a>
+          <Link to="/" className="dc-button dc-button--outline">Return home</Link>
         </div>
       </div>
     </main>
@@ -81,6 +92,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Daycostra — Control the unknown" },
+      {
+        name: "twitter:description",
+        content: "Detect meaningful change, unify operational context and orchestrate accountable response.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -97,6 +113,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="volcanic" data-site-theme="dark">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <HeadContent />
       </head>
       <body>
