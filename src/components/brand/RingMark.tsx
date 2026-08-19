@@ -22,8 +22,9 @@ export function RingMark({
       viewBox="0 0 160 160"
       width={size}
       height={size}
-      role="img"
-      aria-label={title}
+      role={title ? "img" : undefined}
+      aria-label={title || undefined}
+      aria-hidden={title ? undefined : true}
       className={cn("dc-ring-mark", pulse && "dc-ring-mark--pulse", className)}
     >
       <defs>

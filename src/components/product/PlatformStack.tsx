@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { Database, BrainCircuit, Workflow, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,30 +30,17 @@ const layers = [
 ] as const;
 
 export function PlatformStack({ compact = false }: { compact?: boolean }) {
-  const [active, setActive] = useState<string | null>(null);
-
   return (
     <div className={cn("dc-platform-stack", compact && "dc-platform-stack--compact")}>
       <div className="dc-platform-stack__ambient" aria-hidden="true" />
-      <div className="dc-platform-stack__layers" onMouseLeave={() => setActive(null)}>
+      <div className="dc-platform-stack__layers">
         {layers.map((layer, index) => {
           const Icon = layer.icon;
-          const isActive = active === layer.id;
-          const isDimmed = active !== null && !isActive;
           return (
-            <button
-              type="button"
+            <div
               key={layer.id}
-              className={cn(
-                "dc-platform-slab",
-                isActive && "is-active",
-                isDimmed && "is-dimmed",
-              )}
+              className="dc-platform-slab"
               style={{ "--stack-index": index } as CSSProperties}
-              onMouseEnter={() => setActive(layer.id)}
-              onFocus={() => setActive(layer.id)}
-              onBlur={() => setActive(null)}
-              aria-label={`${layer.label}: ${layer.detail}`}
             >
               <span className="dc-platform-slab__wire" aria-hidden="true" />
               <span className="dc-platform-slab__content">
@@ -65,7 +52,7 @@ export function PlatformStack({ compact = false }: { compact?: boolean }) {
                   <small>{layer.detail}</small>
                 </span>
               </span>
-            </button>
+            </div>
           );
         })}
       </div>

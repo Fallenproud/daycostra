@@ -1,42 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
-import { solutions, pillarById } from "@/config/site";
+import { solutions, pillarById, type Solution } from "@/config/site";
 import { PlatformStack } from "@/components/product/PlatformStack";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/solutions/$slug")({
+  loader: ({ params }) => {
+    const solution = solutions.find((item) => item.slug === params.slug);
+    if (!solution) throw notFound();
+    return solution;
+  },
   component: SolutionDetailPage,
 });
 
 function SolutionDetailPage() {
-  const { slug } = Route.useParams();
-  const solution = solutions.find((item) => item.slug === slug);
-
-  if (!solution) {
-    return (
-      <main className="dc-page">
-        <section className="dc-route-hero">
-          <div className="dc-shell dc-route-hero__inner">
-            <div className="dc-kicker">Solution unavailable</div>
-            <h1>This solution page is not defined.</h1>
-            <a href="/solutions" className="dc-button dc-button--outline"><ArrowLeft size={15} /> Back to solutions</a>
-          </div>
-        </section>
-        <SiteFooter />
-      </main>
-    );
-  }
+  const solution = Route.useLoaderData() as Solution;
 
   return (
     <main className="dc-page">
       <section className="dc-route-hero dc-route-hero--detail">
         <div className="dc-shell dc-solution-detail-hero">
           <div>
-            <a href="/solutions" className="dc-back-link"><ArrowLeft size={14} /> Solutions</a>
+            <Link to="/solutions" className="dc-back-link"><ArrowLeft size={14} /> Solutions</Link>
             <div className="dc-kicker">{solution.eyebrow}</div>
             <h1>{solution.title}</h1>
             <p>{solution.summary}</p>
-            <a href="/contact?intent=request-access" className="dc-button dc-button--primary">Discuss this use case <ArrowRight size={15} /></a>
+            <Link to="/contact" className="dc-button dc-button--primary">Discuss this use case <ArrowRight size={15} /></Link>
           </div>
           <div className="dc-solution-detail-hero__stack dc-glass dc-elev-5">
             <PlatformStack compact />

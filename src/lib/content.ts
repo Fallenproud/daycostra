@@ -24,7 +24,7 @@ export const insightRepository: InsightRepository = {
   cmsConnected: false,
   sanityConfigPresent,
   async list() {
-    return fallbackArticles;
+    return [...fallbackArticles];
   },
   async getBySlug(slug) {
     return fallbackArticles.find((article) => article.slug === slug) ?? null;

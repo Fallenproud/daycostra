@@ -74,7 +74,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       setState((current) => mergeStoredState(current, localStorage.getItem(STORAGE_KEY)));
-    } catch {}
+    } catch {
+      // Local storage can be unavailable in private or embedded contexts.
+    }
 
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mq.matches);
@@ -103,7 +105,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     el.setAttribute("data-shadow", state.shadow);
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {}
+    } catch {
+      // Persisting theme state is optional.
+    }
   }, [state, reducedMotion]);
 
   const value = useMemo<ThemeContextValue>(

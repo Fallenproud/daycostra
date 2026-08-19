@@ -9,26 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as IdeRouteImport } from './routes/ide'
-import { Route as DesignSystemRouteImport } from './routes/design-system'
-import { Route as ComponentRegistryRouteImport } from './routes/component-registry'
-import { Route as ApiRuntimeHealthRouteImport } from './routes/api/runtime/health'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ComponentRegistryRouteImport } from './routes/component-registry'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ControlPlaneRouteImport } from './routes/control-plane'
+import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as IdeRouteImport } from './routes/ide'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as IntelligenceRouteImport } from './routes/intelligence'
+import { Route as OrchestrationRouteImport } from './routes/orchestration'
+import { Route as PlatformRouteImport } from './routes/platform'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as SolutionsSlugRouteImport } from './routes/solutions.$slug'
+import { Route as ApiRuntimeHealthRouteImport } from './routes/api/runtime/health'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IdeRoute = IdeRouteImport.update({
-  id: '/ide',
-  path: '/ide',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DesignSystemRoute = DesignSystemRouteImport.update({
-  id: '/design-system',
-  path: '/design-system',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentRegistryRoute = ComponentRegistryRouteImport.update({
@@ -36,99 +41,215 @@ const ComponentRegistryRoute = ComponentRegistryRouteImport.update({
   path: '/component-registry',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ControlPlaneRoute = ControlPlaneRouteImport.update({
+  id: '/control-plane',
+  path: '/control-plane',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DesignSystemRoute = DesignSystemRouteImport.update({
+  id: '/design-system',
+  path: '/design-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdeRoute = IdeRouteImport.update({
+  id: '/ide',
+  path: '/ide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntelligenceRoute = IntelligenceRouteImport.update({
+  id: '/intelligence',
+  path: '/intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrchestrationRoute = OrchestrationRouteImport.update({
+  id: '/orchestration',
+  path: '/orchestration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const SolutionsSlugRoute = SolutionsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SolutionsRoute,
+} as any)
 const ApiRuntimeHealthRoute = ApiRuntimeHealthRouteImport.update({
   id: '/api/runtime/health',
   path: '/api/runtime/health',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/api/runtime/health': typeof ApiRuntimeHealthRoute
+  '/about': typeof AboutRoute
   '/component-registry': typeof ComponentRegistryRoute
+  '/contact': typeof ContactRoute
+  '/control-plane': typeof ControlPlaneRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
+  '/insights': typeof InsightsRouteWithChildren
+  '/intelligence': typeof IntelligenceRoute
+  '/orchestration': typeof OrchestrationRoute
+  '/platform': typeof PlatformRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/solutions/$slug': typeof SolutionsSlugRoute
+  '/api/runtime/health': typeof ApiRuntimeHealthRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/api/runtime/health': typeof ApiRuntimeHealthRoute
+  '/about': typeof AboutRoute
   '/component-registry': typeof ComponentRegistryRoute
+  '/contact': typeof ContactRoute
+  '/control-plane': typeof ControlPlaneRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
+  '/insights': typeof InsightsRouteWithChildren
+  '/intelligence': typeof IntelligenceRoute
+  '/orchestration': typeof OrchestrationRoute
+  '/platform': typeof PlatformRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/solutions/$slug': typeof SolutionsSlugRoute
+  '/api/runtime/health': typeof ApiRuntimeHealthRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/api/runtime/health': typeof ApiRuntimeHealthRoute
+  '/about': typeof AboutRoute
   '/component-registry': typeof ComponentRegistryRoute
+  '/contact': typeof ContactRoute
+  '/control-plane': typeof ControlPlaneRoute
   '/design-system': typeof DesignSystemRoute
   '/ide': typeof IdeRoute
+  '/insights': typeof InsightsRouteWithChildren
+  '/intelligence': typeof IntelligenceRoute
+  '/orchestration': typeof OrchestrationRoute
+  '/platform': typeof PlatformRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/solutions': typeof SolutionsRouteWithChildren
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/solutions/$slug': typeof SolutionsSlugRoute
+  '/api/runtime/health': typeof ApiRuntimeHealthRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/api/runtime/health'
+    | '/about'
     | '/component-registry'
+    | '/contact'
+    | '/control-plane'
     | '/design-system'
     | '/ide'
+    | '/insights'
+    | '/intelligence'
+    | '/orchestration'
+    | '/platform'
     | '/sitemap.xml'
+    | '/solutions'
+    | '/insights/$slug'
+    | '/solutions/$slug'
+    | '/api/runtime/health'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/api/runtime/health'
+    | '/about'
     | '/component-registry'
+    | '/contact'
+    | '/control-plane'
     | '/design-system'
     | '/ide'
+    | '/insights'
+    | '/intelligence'
+    | '/orchestration'
+    | '/platform'
     | '/sitemap.xml'
+    | '/solutions'
+    | '/insights/$slug'
+    | '/solutions/$slug'
+    | '/api/runtime/health'
   id:
     | '__root__'
     | '/'
-    | '/api/runtime/health'
+    | '/about'
     | '/component-registry'
+    | '/contact'
+    | '/control-plane'
     | '/design-system'
     | '/ide'
+    | '/insights'
+    | '/intelligence'
+    | '/orchestration'
+    | '/platform'
     | '/sitemap.xml'
+    | '/solutions'
+    | '/insights/$slug'
+    | '/solutions/$slug'
+    | '/api/runtime/health'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ApiRuntimeHealthRoute: typeof ApiRuntimeHealthRoute
+  AboutRoute: typeof AboutRoute
   ComponentRegistryRoute: typeof ComponentRegistryRoute
+  ContactRoute: typeof ContactRoute
+  ControlPlaneRoute: typeof ControlPlaneRoute
   DesignSystemRoute: typeof DesignSystemRoute
   IdeRoute: typeof IdeRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
+  IntelligenceRoute: typeof IntelligenceRoute
+  OrchestrationRoute: typeof OrchestrationRoute
+  PlatformRoute: typeof PlatformRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SolutionsRoute: typeof SolutionsRouteWithChildren
+  ApiRuntimeHealthRoute: typeof ApiRuntimeHealthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ide': {
-      id: '/ide'
-      path: '/ide'
-      fullPath: '/ide'
-      preLoaderRoute: typeof IdeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/design-system': {
-      id: '/design-system'
-      path: '/design-system'
-      fullPath: '/design-system'
-      preLoaderRoute: typeof DesignSystemRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/component-registry': {
@@ -138,6 +259,90 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentRegistryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/control-plane': {
+      id: '/control-plane'
+      path: '/control-plane'
+      fullPath: '/control-plane'
+      preLoaderRoute: typeof ControlPlaneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/design-system': {
+      id: '/design-system'
+      path: '/design-system'
+      fullPath: '/design-system'
+      preLoaderRoute: typeof DesignSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ide': {
+      id: '/ide'
+      path: '/ide'
+      fullPath: '/ide'
+      preLoaderRoute: typeof IdeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intelligence': {
+      id: '/intelligence'
+      path: '/intelligence'
+      fullPath: '/intelligence'
+      preLoaderRoute: typeof IntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orchestration': {
+      id: '/orchestration'
+      path: '/orchestration'
+      fullPath: '/orchestration'
+      preLoaderRoute: typeof OrchestrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/solutions/$slug': {
+      id: '/solutions/$slug'
+      path: '/$slug'
+      fullPath: '/solutions/$slug'
+      preLoaderRoute: typeof SolutionsSlugRouteImport
+      parentRoute: typeof SolutionsRoute
+    }
     '/api/runtime/health': {
       id: '/api/runtime/health'
       path: '/api/runtime/health'
@@ -145,34 +350,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRuntimeHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
+interface SolutionsRouteChildren {
+  SolutionsSlugRoute: typeof SolutionsSlugRoute
+}
+
+const SolutionsRouteChildren: SolutionsRouteChildren = {
+  SolutionsSlugRoute: SolutionsSlugRoute,
+}
+
+const SolutionsRouteWithChildren = SolutionsRoute._addFileChildren(
+  SolutionsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ApiRuntimeHealthRoute: ApiRuntimeHealthRoute,
+  AboutRoute: AboutRoute,
   ComponentRegistryRoute: ComponentRegistryRoute,
+  ContactRoute: ContactRoute,
+  ControlPlaneRoute: ControlPlaneRoute,
   DesignSystemRoute: DesignSystemRoute,
   IdeRoute: IdeRoute,
+  InsightsRoute: InsightsRouteWithChildren,
+  IntelligenceRoute: IntelligenceRoute,
+  OrchestrationRoute: OrchestrationRoute,
+  PlatformRoute: PlatformRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SolutionsRoute: SolutionsRouteWithChildren,
+  ApiRuntimeHealthRoute: ApiRuntimeHealthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

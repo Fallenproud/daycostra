@@ -8,13 +8,22 @@ import {
   Fingerprint,
   ScanSearch,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { capabilities, fallbackArticles, pillars } from "@/config/site";
 import { OrchestrationGraph } from "@/components/product/OrchestrationGraph";
 import { RingMark } from "@/components/brand/RingMark";
-import { SiteFooter } from "@/components/layout/SiteFooter";
 
-const capabilityIcons = [BrainCircuit, Workflow, ShieldCheck];
-const pillarIcons = [Radar, BrainCircuit, Workflow, Fingerprint];
+const capabilityIcons = {
+  Intelligence: BrainCircuit,
+  Orchestration: Workflow,
+  Resilience: ShieldCheck,
+} as const;
+const pillarIcons = {
+  risk: Radar,
+  intelligence: BrainCircuit,
+  orchestration: Workflow,
+  sovereignty: Fingerprint,
+} as const;
 
 export function PillarGrid() {
   return (
@@ -23,11 +32,14 @@ export function PillarGrid() {
         <div className="dc-section-heading">
           <div className="dc-kicker">Four operating pillars</div>
           <h2 id="pillar-title">A controlled path from signal to action.</h2>
-          <p>Each layer has one job. The interface keeps those boundaries legible instead of hiding them behind generic automation claims.</p>
+          <p>
+            Each layer has one job. The interface keeps those boundaries legible instead of hiding
+            them behind generic automation claims.
+          </p>
         </div>
         <div className="dc-pillar-grid">
           {pillars.map((pillar, index) => {
-            const Icon = pillarIcons[index];
+            const Icon = pillarIcons[pillar.id];
             return (
               <article key={pillar.id} className="dc-glass dc-elev-3 dc-pillar-card">
                 <div className="dc-pillar-card__top">
@@ -45,7 +57,6 @@ export function PillarGrid() {
     </section>
   );
 }
-
 export function CapabilityGrid() {
   return (
     <section className="dc-section dc-section--tight" aria-labelledby="capabilities-title">
@@ -55,21 +66,30 @@ export function CapabilityGrid() {
             <div className="dc-kicker">Operational surfaces</div>
             <h2 id="capabilities-title">Intelligence. Orchestration. Resilience.</h2>
           </div>
-          <p>Three product views, all grounded in the same governed state rather than three disconnected dashboards.</p>
+          <p>
+            Three product views, all grounded in the same governed state rather than three
+            disconnected dashboards.
+          </p>
         </div>
         <div className="dc-capability-grid">
-          {capabilities.map((capability, index) => {
-            const Icon = capabilityIcons[index];
+          {capabilities.map((capability) => {
+            const Icon = capabilityIcons[capability.title];
             return (
-              <a href={capability.href} key={capability.title} className="dc-glass dc-elev-5 dc-capability-card">
+              <Link
+                to={capability.href}
+                key={capability.title}
+                className="dc-glass dc-elev-5 dc-capability-card"
+              >
                 <span className="dc-capability-card__icon">
                   <Icon size={22} strokeWidth={1.4} />
                 </span>
                 <span className="dc-kicker">{capability.eyebrow}</span>
                 <h3>{capability.title}</h3>
                 <p>{capability.body}</p>
-                <span className="dc-card-link">Explore surface <ArrowUpRight size={15} /></span>
-              </a>
+                <span className="dc-card-link">
+                  Explore surface <ArrowUpRight size={15} />
+                </span>
+              </Link>
             );
           })}
         </div>
@@ -86,14 +106,23 @@ export function AdaptiveResponseStrip() {
           <div className="dc-kicker">Adaptive Response Orchestration</div>
           <h2 id="response-title">Move quickly without making control invisible.</h2>
           <p>
-            Route signals through context, policy, human approval and action while retaining the trace that explains how the response unfolded.
+            Route signals through context, policy, human approval and action while retaining the
+            trace that explains how the response unfolded.
           </p>
           <div className="dc-response-strip__principles">
-            <span><GitBranch size={15} /> Explicit routing</span>
-            <span><ShieldCheck size={15} /> Human checkpoints</span>
-            <span><ScanSearch size={15} /> Observable trace</span>
+            <span>
+              <GitBranch size={15} /> Explicit routing
+            </span>
+            <span>
+              <ShieldCheck size={15} /> Human checkpoints
+            </span>
+            <span>
+              <ScanSearch size={15} /> Observable trace
+            </span>
           </div>
-          <a href="/orchestration" className="dc-button dc-button--outline">Explore orchestration</a>
+          <Link to="/orchestration" className="dc-button dc-button--outline">
+            Explore orchestration
+          </Link>
         </div>
         <OrchestrationGraph />
       </div>
@@ -103,6 +132,7 @@ export function AdaptiveResponseStrip() {
 
 export function InsightTeaser() {
   const article = fallbackArticles[0];
+  if (!article) return null;
   return (
     <section className="dc-section dc-section--tight" aria-labelledby="insight-title">
       <div className="dc-shell dc-insight-teaser">
@@ -121,7 +151,13 @@ export function InsightTeaser() {
             <span>{article.readTime} min read</span>
             <span>{article.author.role}</span>
           </div>
-          <a href={`/insights/${article.slug}`} className="dc-button dc-button--ghost">Read the analysis <ArrowUpRight size={15} /></a>
+          <Link
+            to="/insights/$slug"
+            params={{ slug: article.slug }}
+            className="dc-button dc-button--ghost"
+          >
+            Read the analysis <ArrowUpRight size={15} />
+          </Link>
         </div>
       </div>
     </section>
@@ -137,7 +173,8 @@ export function TrustSection() {
           <h2 id="trust-title">No invented live state. No hidden authority.</h2>
         </div>
         <p>
-          Product surfaces distinguish authoritative data from demo state, preserve source context and keep automation boundaries visible to operators.
+          Product surfaces distinguish authoritative data from demo state, preserve source context
+          and keep automation boundaries visible to operators.
         </p>
       </div>
     </section>
@@ -151,12 +188,14 @@ export function FinalCTA() {
         <RingMark size={86} />
         <div>
           <div className="dc-kicker">Daycostra Platform</div>
-          <h2 id="closing-title">Build an operational view you can still explain under pressure.</h2>
+          <h2 id="closing-title">
+            Build an operational view you can still explain under pressure.
+          </h2>
         </div>
-        <a href="/contact?intent=request-access" className="dc-button dc-button--primary">Request Platform Access</a>
+        <Link to="/contact" className="dc-button dc-button--primary">
+          Request Platform Access
+        </Link>
       </div>
     </section>
   );
 }
-
-export { SiteFooter };

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Landmark, ServerCog, Building2, Shield, PlugZap, BriefcaseBusiness } from "lucide-react";
 import { solutions, pillarById } from "@/config/site";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -36,7 +36,7 @@ function SolutionsPage() {
           {solutions.map((solution, index) => {
             const Icon = icons[index];
             return (
-              <a href={`/solutions/${solution.slug}`} key={solution.slug} className="dc-glass dc-elev-5 dc-solution-card">
+              <Link to="/solutions/$slug" params={{ slug: solution.slug }} key={solution.slug} className="dc-glass dc-elev-5 dc-solution-card">
                 <div className="dc-solution-card__top">
                   <span className="dc-solution-card__icon"><Icon size={21} strokeWidth={1.4} /></span>
                   <ArrowUpRight size={17} />
@@ -49,7 +49,7 @@ function SolutionsPage() {
                     <span key={pillar}>{pillarById(pillar).shortTitle}</span>
                   ))}
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>

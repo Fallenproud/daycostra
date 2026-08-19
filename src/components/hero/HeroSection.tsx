@@ -1,4 +1,5 @@
 import { ArrowRight, Radar, Workflow, ShieldCheck, Network } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { RingMark } from "@/components/brand/RingMark";
 import { pillars } from "@/config/site";
 
@@ -21,12 +22,12 @@ export function HeroSection() {
           </p>
 
           <div className="dc-hero__actions">
-            <a href="/platform" className="dc-button dc-button--primary">
+            <Link to="/platform" className="dc-button dc-button--primary">
               Explore the Platform <ArrowRight size={16} />
-            </a>
-            <a href="/contact" className="dc-button dc-button--ghost">
+            </Link>
+            <Link to="/contact" className="dc-button dc-button--ghost">
               Talk to an Expert
-            </a>
+            </Link>
           </div>
 
           <div className="dc-hero__signals" aria-label="Daycostra operating model">
@@ -56,13 +57,13 @@ export function HeroSection() {
 
       <div className="dc-shell dc-hero__pillar-strip">
         {pillars.map((pillar, index) => (
-          <a href="/platform" key={pillar.id} className="dc-pillar-mini">
+          <Link to="/platform" key={pillar.id} className="dc-pillar-mini">
             <span className="dc-pillar-mini__index">0{index + 1}</span>
             <span>
               <strong>{pillar.shortTitle}</strong>
               <small>{pillar.statement}</small>
             </span>
-          </a>
+          </Link>
         ))}
       </div>
     </section>

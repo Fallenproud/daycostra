@@ -13,7 +13,7 @@ function IntelligencePage() {
       title="One governed view across signals and source context."
       body="This preview demonstrates the intended information hierarchy for correlation and investigation without representing synthetic signals as a live feed."
     >
-      <div className="dc-radar-preview" aria-label="Static intelligence visualization preview">
+      <div className="dc-radar-preview" role="img" aria-label="Static intelligence visualization preview">
         <div className="dc-radar-preview__rings" aria-hidden="true" />
         <div className="dc-radar-preview__sweep" aria-hidden="true" />
         <span className="dc-radar-dot dc-radar-dot--one" />

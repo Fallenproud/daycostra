@@ -7,8 +7,8 @@ import {
   InsightTeaser,
   TrustSection,
   FinalCTA,
-  SiteFooter,
 } from "@/components/sections";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -26,15 +26,17 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main className="dc-page">
-      <HeroSection />
-      <PillarGrid />
-      <CapabilityGrid />
-      <AdaptiveResponseStrip />
-      <InsightTeaser />
-      <TrustSection />
-      <FinalCTA />
+    <>
+      <main className="dc-page">
+        <HeroSection />
+        <PillarGrid />
+        <CapabilityGrid />
+        <AdaptiveResponseStrip />
+        <InsightTeaser />
+        <TrustSection />
+        <FinalCTA />
+      </main>
       <SiteFooter />
-    </main>
+    </>
   );
 }

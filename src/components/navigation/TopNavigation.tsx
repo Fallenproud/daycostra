@@ -45,6 +45,10 @@ export function TopNavigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);

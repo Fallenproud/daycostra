@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowRight, CheckCircle2, CircleAlert, Mail } from "lucide-react";
+import { ArrowRight, CheckCircle2, CircleAlert } from "lucide-react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/contact")({
@@ -17,15 +17,16 @@ export const Route = createFileRoute("/contact")({
 });
 
 const schema = z.object({
-  name: z.string().min(2, "Enter your name."),
-  email: z.string().email("Enter a valid email address."),
-  organization: z.string().min(2, "Enter your organization."),
-  role: z.string().min(2, "Enter your role."),
-  useCase: z.string().min(20, "Tell us a little more about what you want to evaluate."),
+  name: z.string().trim().min(2, "Enter your name."),
+  email: z.string().trim().email("Enter a valid email address."),
+  organization: z.string().trim().min(2, "Enter your organization."),
+  role: z.string().trim().min(2, "Enter your role."),
+  useCase: z.string().trim().min(20, "Tell us a little more about what you want to evaluate."),
 });
 
 type FormValues = z.infer<typeof schema>;
 type SubmitState = "idle" | "submitting" | "success" | "error" | "unconfigured";
+const CONTACT_REQUEST_TIMEOUT_MS = 15_000;
 
 function ContactPage() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
@@ -47,11 +48,14 @@ function ContactPage() {
 
     setSubmitState("submitting");
     setServerMessage("");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), CONTACT_REQUEST_TIMEOUT_MS);
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(values),
+        signal: controller.signal,
       });
       if (!response.ok) throw new Error(`Request failed with ${response.status}`);
       setSubmitState("success");
@@ -59,7 +63,13 @@ function ContactPage() {
       reset();
     } catch (error) {
       setSubmitState("error");
-      setServerMessage(error instanceof Error ? error.message : "The request could not be delivered.");
+      setServerMessage(
+        error instanceof DOMException && error.name === "AbortError"
+          ? "The request timed out. Please try again."
+          : "The request could not be delivered. Please try again.",
+      );
+    } finally {
+      window.clearTimeout(timeout);
     }
   };
 
@@ -113,7 +123,7 @@ function ContactPage() {
 
             {submitState !== "idle" && submitState !== "submitting" && (
               <div className={`dc-form-status dc-form-status--${submitState}`} role="status" aria-live="polite">
-                {submitState === "success" ? <CheckCircle2 size={18} /> : submitState === "unconfigured" ? <CircleAlert size={18} /> : <Mail size={18} />}
+                <CircleAlert size={18} />
                 <span>{serverMessage}</span>
               </div>
             )}

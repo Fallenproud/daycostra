@@ -1,4 +1,5 @@
 import { Lockup } from "@/components/brand/Lockup";
+import { Link } from "@tanstack/react-router";
 
 const columns = [
   {
@@ -31,7 +32,7 @@ const columns = [
     title: "Company",
     links: [
       ["About", "/about"],
-      ["Request Access", "/contact?intent=request-access"],
+      ["Request Access", "/contact"],
     ],
   },
 ] as const;
@@ -41,9 +42,9 @@ export function SiteFooter() {
     <footer className="dc-footer">
       <div className="dc-shell dc-footer__grid">
         <div className="dc-footer__brand">
-          <a href="/" aria-label="Daycostra home">
+          <Link to="/" aria-label="Daycostra home">
             <Lockup markSize={34} />
-          </a>
+          </Link>
           <p>Sovereign intelligence and controlled response for environments that refuse to stay predictable.</p>
           <span className="dc-footer__status">Platform surface · preview</span>
         </div>
@@ -53,9 +54,9 @@ export function SiteFooter() {
             <h2>{column.title}</h2>
             <nav aria-label={`${column.title} links`}>
               {column.links.map(([label, href]) => (
-                <a href={href} key={href}>
+                <Link to={href} key={href}>
                   {label}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

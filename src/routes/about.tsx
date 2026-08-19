@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CircleDot, Layers3, Waves, Cable, ArrowRight } from "lucide-react";
 import { pillars } from "@/config/site";
 import { RingMark } from "@/components/brand/RingMark";
@@ -23,7 +23,8 @@ const materials = [
 
 function AboutPage() {
   return (
-    <main className="dc-page">
+    <>
+      <main className="dc-page">
       <section className="dc-route-hero dc-route-hero--detail">
         <div className="dc-shell dc-about-hero">
           <div>
@@ -32,7 +33,7 @@ function AboutPage() {
             <p>
               Daycostra is being designed around a simple operating principle: intelligence is useful only when its sources, boundaries, decisions and actions remain understandable under pressure.
             </p>
-            <a href="/platform" className="dc-button dc-button--outline">Explore the platform <ArrowRight size={15} /></a>
+            <Link to="/platform" className="dc-button dc-button--outline">Explore the platform <ArrowRight size={15} /></Link>
           </div>
           <div className="dc-about-hero__mark dc-glass dc-elev-7">
             <RingMark size={260} pulse />
@@ -81,7 +82,8 @@ function AboutPage() {
           </div>
         </div>
       </section>
+      </main>
       <SiteFooter />
-    </main>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Clock3 } from "lucide-react";
 import { insightRepository } from "@/lib/content";
-import { pillarById } from "@/config/site";
+import { pillarById, type InsightArticle } from "@/config/site";
 import { RingMark } from "@/components/brand/RingMark";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
@@ -11,11 +11,20 @@ export const Route = createFileRoute("/insights/$slug")({
     if (!article) throw notFound();
     return article;
   },
+  head: ({ loaderData }) => loaderData
+    ? {
+        meta: [
+          { title: `${loaderData.title} | Daycostra Insights` },
+          { name: "description", content: loaderData.subtitle },
+          { property: "og:type", content: "article" },
+        ],
+      }
+    : {},
   component: InsightArticlePage,
 });
 
 function InsightArticlePage() {
-  const article = Route.useLoaderData();
+  const article = Route.useLoaderData() as InsightArticle;
   const pillar = pillarById(article.pillar);
 
   return (
