@@ -1,23 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/hero/HeroSection";
 import {
-  FeatureGrid,
-  ProcessTimeline,
-  CapabilityShowcase,
+  PillarGrid,
+  CapabilityGrid,
+  AdaptiveResponseStrip,
+  InsightTeaser,
   TrustSection,
   FinalCTA,
-  SiteFooter,
 } from "@/components/sections";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "Daycostra 2027 — From prompt to product" },
+      { title: "Daycostra — Control the unknown" },
       {
         name: "description",
         content:
-          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
+          "Sovereign intelligence and controlled response across unpredictable environments.",
       },
     ],
   }),
@@ -25,14 +26,17 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main>
-      <HeroSection />
-      <FeatureGrid />
-      <ProcessTimeline />
-      <CapabilityShowcase />
-      <TrustSection />
-      <FinalCTA />
+    <>
+      <main className="dc-page">
+        <HeroSection />
+        <PillarGrid />
+        <CapabilityGrid />
+        <AdaptiveResponseStrip />
+        <InsightTeaser />
+        <TrustSection />
+        <FinalCTA />
+      </main>
       <SiteFooter />
-    </main>
+    </>
   );
 }

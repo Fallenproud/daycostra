@@ -379,7 +379,8 @@ export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps 
       if (source === "assistant") {
         setMessages((items) => [...items, { id: Date.now() + 1, role: "assistant", body: response, meta: "Awaiting Daycostra runtime" }]);
       } else {
-        setTerminalHistory((items) => [{ id: Date.now(), command: value, output: response, at: timeLabel(), phase: "awaiting-runtime" }, ...items].slice(0, 30));
+        const terminalEntry: TerminalEntry = { id: Date.now(), command: value, output: response, at: timeLabel(), phase: "awaiting-runtime" };
+        setTerminalHistory((items) => [terminalEntry, ...items].slice(0, 30));
       }
       return;
     }
@@ -411,7 +412,8 @@ export function IdeWorkspace({ initialPrompt, initialModel }: IdeWorkspaceProps 
     if (source === "assistant") {
       setMessages((items) => [...items, { id: Date.now() + 1, role: "assistant", body: response, meta: finalPhase === "complete" ? "Local workspace action" : "Local action error" }]);
     } else {
-      setTerminalHistory((items) => [{ id: Date.now(), command: value, output: response, at: timeLabel(), phase: finalPhase }, ...items].slice(0, 30));
+      const terminalEntry: TerminalEntry = { id: Date.now(), command: value, output: response, at: timeLabel(), phase: finalPhase as RuntimePhase };
+      setTerminalHistory((items) => [terminalEntry, ...items].slice(0, 30));
     }
   };
 

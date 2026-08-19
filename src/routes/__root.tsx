@@ -14,67 +14,63 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { EnvironmentRenderer } from "@/components/environment/EnvironmentRenderer";
-import { ThemeControlPanel } from "@/components/theme/ThemeControlPanel";
 import { TopNavigation } from "@/components/navigation/TopNavigation";
+import { Lockup } from "@/components/brand/Lockup";
+
+const themeBootScript = `(() => {
+  try {
+    const match = document.cookie.match(/(?:^|; )daycostra-theme=(dark|light)/);
+    const theme = match?.[1] || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-site-theme', theme);
+  } catch {
+    document.documentElement.setAttribute('data-site-theme', 'dark');
+  }
+})();`;
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-dvh items-center justify-center px-4">
-      <div className="max-w-md text-center glass-panel elev-4 rounded-2xl p-10">
-        <h1 className="text-6xl font-bold text-[var(--text-primary)]">404</h1>
-        <h2 className="mt-3 text-lg font-semibold">Page not found</h2>
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
-          The page you're looking for doesn't exist.
-        </p>
-        <Link
-          to="/"
-          className="mt-6 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold"
-          style={{
-            background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
-            color: "var(--accent-on)",
-          }}
-        >
-          Go home
-        </Link>
+    <main className="dc-page dc-system-page">
+      <div className="dc-system-card dc-glass dc-elev-7">
+        <Lockup markSize={42} />
+        <div className="dc-kicker">404 · outside the mapped surface</div>
+        <h1>Even here, control the unknown.</h1>
+        <p>The requested route is not part of the current Daycostra frontend.</p>
+        <Link to="/" className="dc-button dc-button--primary">Return home</Link>
       </div>
-    </div>
+    </main>
   );
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
-    <div className="flex min-h-dvh items-center justify-center px-4">
-      <div className="max-w-md text-center glass-panel elev-4 rounded-2xl p-10">
-        <h1 className="text-xl font-semibold">This page didn't load</h1>
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
-          Something went wrong. Try again or head home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+    <main className="dc-page dc-system-page">
+      <div className="dc-system-card dc-glass dc-elev-7">
+        <Lockup markSize={42} />
+        <div className="dc-kicker">Frontend boundary</div>
+        <h1>This surface did not load.</h1>
+        <p>The error was captured. You can retry the route without implying that the underlying operation succeeded.</p>
+        <div className="dc-system-actions">
           <button
+            type="button"
+            className="dc-button dc-button--primary"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="rounded-md px-4 py-2 text-sm font-semibold"
-            style={{
-              background: "linear-gradient(180deg, var(--accent-secondary), var(--accent-primary))",
-              color: "var(--accent-on)",
-            }}
           >
             Try again
           </button>
-          <a href="/" className="rounded-md hairline px-4 py-2 text-sm font-semibold">
-            Go home
-          </a>
+          <Link to="/" className="dc-button dc-button--outline">Return home</Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -83,50 +79,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Daycostra 2027 — From prompt to product" },
+      { title: "Daycostra — Control the unknown" },
       {
         name: "description",
-        content:
-          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
+        content: "Sovereign intelligence and controlled response across unpredictable environments.",
       },
       { name: "author", content: "Daycostra" },
-      { property: "og:title", content: "Daycostra 2027 — From prompt to product" },
+      { property: "og:title", content: "Daycostra — Control the unknown" },
       {
         property: "og:description",
-        content:
-          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
+        content: "Detect meaningful change, unify operational context and orchestrate accountable response.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Daycostra 2027 — From prompt to product" },
+      { name: "twitter:title", content: "Daycostra — Control the unknown" },
       {
         name: "twitter:description",
-        content:
-          "Compose context, models, and constraints into production-ready software — instantly, end to end.",
-      },
-      {
-        property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/52346c50-ed8a-40ad-8d55-5a00bc0b0dc0/id-preview-5127cb84--8677977c-25c3-459f-91bb-9837b2f3acc9.lovable.app-1784247368081.png",
+        content: "Detect meaningful change, unify operational context and orchestrate accountable response.",
       },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://rsms.me" },
-      { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
-      {
-        rel: "stylesheet",
-        href: "https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap",
-      },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -138,8 +111,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="volcanic">
+    <html lang="en" data-theme="volcanic" data-site-theme="dark">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <HeadContent />
       </head>
       <body>
@@ -160,7 +134,6 @@ function RootComponent() {
       <ThemeProvider>
         {!isIdeWorkspace && <EnvironmentRenderer />}
         {!isIdeWorkspace && <TopNavigation />}
-        {!isIdeWorkspace && <ThemeControlPanel />}
         <Outlet />
       </ThemeProvider>
     </QueryClientProvider>
