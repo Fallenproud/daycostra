@@ -227,6 +227,7 @@
   font-weight: 730;
 }
 .dc-section-heading h2 { font-size: clamp(2rem, 3.6vw, 3.6rem); }
+.dc-platform-hero__inner h1 { text-transform: uppercase; }
 .dc-section-heading p,
 .dc-route-hero p,
 .dc-product-hero p,

@@ -30,7 +30,7 @@ export function HeroSection() {
             </Link>
           </div>
 
-          <div className="dc-hero__signals" aria-label="Daycostra operating model">
+          <div className="dc-hero__signals" role="group" aria-label="Daycostra operating model">
             {heroSignals.map((item) => {
               const Icon = item.icon;
               return (
